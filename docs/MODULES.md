@@ -476,6 +476,7 @@ tools/
 ├── base.h/.cpp            # Tool / ToolContext — abstract base class
 ├── controller.h/.cpp      # ToolController — tool switching and state management
 ├── action.h/.cpp          # ActionTools — copy, save, cancel actions
+├── history_navigator.h/.cpp  # HistoryNavigator — browses previous captures inside a capture window
 ├── pen.h/.cpp             # PenTool — freehand drawing
 ├── rect.h/.cpp            # RectTool — rectangle (filled/outlined)
 ├── ellipse.h/.cpp         # EllipseTool — ellipse
@@ -498,6 +499,7 @@ tools/
 - Drawing tools: pen, rectangle, ellipse, arrow, text, number, highlighter, mosaic, watermark, cursor, eraser and more
 - The tool controller switches tools and dispatches mouse events
 - The tool context (ToolContext) injects the scene, view, settings and other dependencies
+- HistoryNavigator switches the capture background between previous captures in the clipboard history (`,` / `.` keys, toolbar button); the live capture is snapshotted and restored losslessly (live endpoint)
 
 ---
 
@@ -586,7 +588,7 @@ ui/
 ├── toolbar_layout_dialog.h/.cpp     # ToolbarLayoutDialog — screenshot / pin toolbar layout editor
 ├── reorderable_rows.h/.cpp          # DragGrip / DraggableRow / ReorderableRowList — drag-to-reorder rows
 ├── tray_menu.h/.cpp                 # CustomTrayMenu — system tray menu
-├── screenshot_window.h/.cpp         # ScreenshotWindow — full-screen capture window (region drawing)
+├── screenshot_window.h/.cpp         # ScreenshotWindow — full-screen capture window (region drawing); in-app keys include history prev/next
 ├── quick_capture_overlay.h/.cpp     # Transparent quick capture layer reusing the normal selection, coordinates and magnifier
 ├── update_dialog.h/.cpp             # Update notes and download progress
 ├── dialogs.h/.cpp                   # StandardDialog — confirm, warning, info, error dialogs

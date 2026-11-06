@@ -20,7 +20,7 @@ QString tld_tr(const char *text) { return i18n_tr(text, "ToolbarLayoutDialog"); 
 const char *button_name(const QString &key) {
     static const QMap<QString, const char *> names = {
         {"long_screenshot", "Long screenshot"}, {"save", "Save"}, {"quick_save", "Quick save"}, {"copy", "Copy"}, {"screenshot_translate", "Screenshot translate"},
-        {"text_recognize", "Recognize text"}, {"scan_code", "Scan code"}, {"gif", "Screen recording"},
+        {"text_recognize", "Recognize text"}, {"scan_code", "Scan code"}, {"gif", "Screen recording"}, {"history", "Previous screenshot"},
         {"pen", "Pen"}, {"highlighter", "Highlighter"}, {"mosaic", "Mosaic"}, {"spotlight", "Spotlight"},
         {"watermark", "Watermark"}, {"arrow", "Arrow"}, {"number", "Number"}, {"rect", "Rectangle"},
         {"ellipse", "Ellipse"}, {"text", "Text"}, {"eraser", "Eraser"}, {"undo", "Undo"}, {"redo", "Redo"},

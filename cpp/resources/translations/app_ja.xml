@@ -381,6 +381,14 @@ Replace it?</source>
         <translation>選択項目を削除</translation>
     </message>
     <message>
+        <source>Previous Screenshot</source>
+        <translation>前のスクリーンショット</translation>
+    </message>
+    <message>
+        <source>Next Screenshot</source>
+        <translation>次のスクリーンショット</translation>
+    </message>
+    <message>
         <source>Restore Last Region</source>
         <translation>前回の選択範囲を復元</translation>
     </message>
@@ -1779,6 +1787,10 @@ Replace it?</source>
     <message>
         <source>Save to file</source>
         <translation>ファイルに保存</translation>
+    </message>
+    <message>
+        <source>Previous screenshot (,)</source>
+        <translation>前のスクリーンショット (,)</translation>
     </message>
     <message>
         <source>Quick save: straight to the save folder, no dialog</source>
@@ -5743,6 +5755,10 @@ Replace: move the current data there; the data already in that folder will be de
         <translation>やり直し</translation>
     </message>
     <message>
+        <source>Previous screenshot</source>
+        <translation>前のスクリーンショット</translation>
+    </message>
+    <message>
         <source>Cancel screenshot</source>
         <translation>終了</translation>
     </message>
@@ -7473,6 +7489,13 @@ Replace it?</source>
     <message>
         <source>Copied files and folders, shown with their icons, names and sizes.</source>
         <translation>コピーしたファイルとフォルダー。アイコン、名前、サイズを表示します。</translation>
+    </message>
+</context>
+<context>
+    <name>HistoryNavigator</name>
+    <message>
+        <source>No earlier screenshot</source>
+        <translation>これより前のスクリーンショットはありません</translation>
     </message>
 </context>
 </TS>

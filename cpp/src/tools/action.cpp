@@ -3,6 +3,8 @@
 #include "canvas/scene.h"
 #include "canvas/selection_model.h"
 #include "canvas/smart_erase_wait.h"
+#include "clipboard/core/manager.h"
+#include "clipboard/core/models.h"
 #include "core/background_tasks.h"
 #include "core/clipboard_utils.h"
 #include "core/i18n.h"
@@ -15,6 +17,7 @@
 #include "settings/tool_settings.h"
 #include "text_recognition/text_recognition.h"
 #include "tools/controller.h"
+#include "tools/history_navigator.h"
 #include "tools/number.h"
 #include "translation/translation_manager.h"
 #include "ui/dialogs.h"
@@ -38,7 +41,28 @@ constexpr int WAIT_BAR_DELAY_MS = 200;
 
 ActionTools::ActionTools(CanvasScene *scene, ToolSettingsManager *config_manager, QWidget *parent_window)
     : scene(scene), config_manager(config_manager), parent_window(parent_window), export_service(scene),
-      save_service(std::make_shared<SaveService>(config_manager ? *config_manager : *get_tool_settings_manager())) {}
+      save_service(std::make_shared<SaveService>(config_manager ? *config_manager : *get_tool_settings_manager())) {
+    // History switching browses this application's captures in the clipboard history.
+    history_navigator = std::make_unique<HistoryNavigator>(
+        scene, parent_window,
+        [] {
+            auto &manager = clipboard::ClipboardManager::instance();
+            if (!manager.is_available()) return QList<QString>();
+            const clipboard::FilterRule rule{QStringLiteral("image"), clipboard::OWN_SOURCE_APP};
+            QList<QString> ids;
+            for (const auto &item : manager.get_history(0, 500, std::nullopt, rule)) {
+                if (item.image_id && !item.image_id->isEmpty()) ids.append(*item.image_id);
+            }
+            return ids;
+        },
+        [](const QString &image_id) {
+            auto &manager = clipboard::ClipboardManager::instance();
+            const auto data = manager.get_image_data(image_id);
+            return data && !data->isEmpty() ? QImage::fromData(*data) : QImage();
+        },
+        [this] { return parent_window && parent_window->isVisible(); },
+        [](const QString &message) { show_toast(message); });
+}
 
 void ActionTools::finish_when_ready(const QRectF &selection_rect, std::function<void()> finish) {
     auto *host = dynamic_cast<ActionHost *>(parent_window.data());
@@ -179,6 +203,12 @@ void ActionTools::handle_pin(bool close_after) {
 bool ActionTools::handle_capture_action(const QString &action) {
     // Close works without a selection, like Esc, so it also exits before selecting.
     if (action == "close") {
+        // While browsing history, close returns to the capture being edited
+        // instead of ending it, matching Esc.
+        if (history_navigator && history_navigator->browsing()) {
+            history_navigator->return_to_current();
+            return true;
+        }
         cleanup_and_close();
         return true;
     }
@@ -199,6 +229,21 @@ bool ActionTools::handle_capture_action(const QString &action) {
 
 bool ActionTools::has_annotations(const QList<QGraphicsItem *> &drawing_items) {
     return std::any_of(drawing_items.begin(), drawing_items.end(), [](QGraphicsItem *item) { return item->isVisible(); });
+}
+
+void ActionTools::handle_history_prev() {
+    temporarily_exit_editing();
+    if (history_navigator) history_navigator->step_older();
+}
+
+void ActionTools::handle_history_next() {
+    temporarily_exit_editing();
+    if (history_navigator) history_navigator->step_newer();
+}
+
+void ActionTools::handle_history_return() {
+    temporarily_exit_editing();
+    if (history_navigator) history_navigator->return_to_current();
 }
 
 void ActionTools::save_original_beside(const QRectF &selection_rect, const QString &saved_path) {

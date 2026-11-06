@@ -378,6 +378,14 @@ Replace it?</source>
         <translation>선택 항목 삭제</translation>
     </message>
     <message>
+        <source>Previous Screenshot</source>
+        <translation>이전 스크린샷</translation>
+    </message>
+    <message>
+        <source>Next Screenshot</source>
+        <translation>다음 스크린샷</translation>
+    </message>
+    <message>
         <source>Restore Last Region</source>
         <translation>이전 선택 영역 복원</translation>
     </message>
@@ -1756,6 +1764,10 @@ Replace it?</source>
     <message>
         <source>Save to file</source>
         <translation>파일로 저장</translation>
+    </message>
+    <message>
+        <source>Previous screenshot (,)</source>
+        <translation>이전 스크린샷 (,)</translation>
     </message>
     <message>
         <source>Quick save: straight to the save folder, no dialog</source>
@@ -5734,6 +5746,10 @@ Replace: move the current data there; the data already in that folder will be de
         <translation>다시 실행</translation>
     </message>
     <message>
+        <source>Previous screenshot</source>
+        <translation>이전 스크린샷</translation>
+    </message>
+    <message>
         <source>Cancel screenshot</source>
         <translation>스크린샷 취소</translation>
     </message>
@@ -7464,6 +7480,13 @@ Replace it?</source>
     <message>
         <source>Copied files and folders, shown with their icons, names and sizes.</source>
         <translation>복사한 파일과 폴더. 아이콘, 이름, 크기를 표시합니다.</translation>
+    </message>
+</context>
+<context>
+    <name>HistoryNavigator</name>
+    <message>
+        <source>No earlier screenshot</source>
+        <translation>이전 스크린샷이 없습니다</translation>
     </message>
 </context>
 </TS>

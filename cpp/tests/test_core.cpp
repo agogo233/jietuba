@@ -5,6 +5,7 @@
 #include "core/global_hotkey.h"
 #include "core/i18n.h"
 #include "core/logger.h"
+#include "core/shortcut_manager.h"
 #include "settings/tool_settings.h"
 #include <QDir>
 #include <QFile>
@@ -374,6 +375,26 @@ private slots:
         auto &store = get_tool_settings_manager()->qsettings.settings();
         QCOMPARE(store.format(), QSettings::IniFormat);
         QVERIFY(QDir::toNativeSeparators(store.fileName()).startsWith(sandbox));
+    }
+
+    // The history navigation keys are printable ASCII, so the parser must accept
+    // punctuation on top of letters, digits and named keys.
+    void shortcutParsing() {
+        const auto comma = parse_shortcut_to_qt(",");
+        QVERIFY(comma.has_value());
+        QCOMPARE(comma->first, static_cast<int>(Qt::Key_Comma));
+        QCOMPARE(static_cast<int>(comma->second), static_cast<int>(Qt::NoModifier));
+        const auto period = parse_shortcut_to_qt(".");
+        QVERIFY(period.has_value());
+        QCOMPARE(period->first, static_cast<int>(Qt::Key_Period));
+        const auto ctrl_comma = parse_shortcut_to_qt("ctrl+,");
+        QVERIFY(ctrl_comma.has_value());
+        QCOMPARE(ctrl_comma->first, static_cast<int>(Qt::Key_Comma));
+        QCOMPARE(static_cast<int>(ctrl_comma->second), static_cast<int>(Qt::ControlModifier));
+        // Letters and digits keep parsing exactly as before.
+        QVERIFY(parse_shortcut_to_qt("l").has_value());
+        QVERIFY(parse_shortcut_to_qt("5").has_value());
+        QVERIFY(!parse_shortcut_to_qt("").has_value());
     }
 private:
     static void set_language(const QString &language) {

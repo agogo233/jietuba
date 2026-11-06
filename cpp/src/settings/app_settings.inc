@@ -63,6 +63,8 @@ SETTING(inapp_translate, "inapp/inapp_translate", QString, "shift+c", Import, Ge
 SETTING(inapp_text_recognize, "inapp/inapp_text_recognize", QString, "shift+t", Import, Gen, Gen)
 SETTING(inapp_save, "inapp/inapp_save", QString, "ctrl+s", Import, Gen, Gen)
 SETTING(inapp_quick_save, "inapp/inapp_quick_save", QString, "ctrl+shift+s", Import, Gen, Gen)
+SETTING(inapp_history_prev, "inapp/inapp_history_prev", QString, ",", Import, Gen, Gen)
+SETTING(inapp_history_next, "inapp/inapp_history_next", QString, ".", Import, Gen, Gen)
 SETTING(inapp_clipboard_quick_edit, "inapp/inapp_clipboard_quick_edit", QString, "tab", Import, Gen, Gen)
 SETTING(inapp_clipboard_edit_save, "inapp/inapp_clipboard_edit_save", QString, "ctrl+enter", Import, Gen, Gen)
 SETTING(inapp_clipboard_edit_save_paste, "inapp/inapp_clipboard_edit_save_paste", QString, "ctrl+shift+enter", Import, Gen, Gen)

@@ -10,6 +10,7 @@ class QGraphicsItem;
 
 namespace jietuba {
 class CanvasScene;
+class HistoryNavigator;
 class SaveService;
 class ToolSettingsManager;
 
@@ -38,6 +39,12 @@ public:
     // A pin window gets the clean base image plus the annotations as vector items,
     // so they stay editable; the composite still goes to the clipboard.
     void handle_pin(bool close_after = true);
+    // Steps to the previous or next capture kept in the clipboard history,
+    // restoring the live endpoint at the newest end and on Esc/close.
+    void handle_history_prev();
+    void handle_history_next();
+    // Returns to the capture being edited without stepping through newer history.
+    void handle_history_return();
     // One capture action chosen by a mouse binding; false when it does not apply.
     bool handle_capture_action(const QString &action);
     // Recognizes the selection, closes the capture, then opens the translation window.
@@ -54,6 +61,7 @@ public:
     QPointer<QWidget> parent_window;
     ExportService export_service;
     std::shared_ptr<SaveService> save_service;
+    std::unique_ptr<HistoryNavigator> history_navigator;
 private:
     // Export -> clipboard -> auto save -> close.
     void copy_save_and_close(bool close_after = true);

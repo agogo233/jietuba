@@ -63,6 +63,7 @@ const QStringList &default_inapp_keys() {
         "inapp_thumbnail", "inapp_toggle_toolbar", "inapp_pin_hide_annotations", "inapp_pin_lock", "inapp_pin_text_mode", "inapp_pin_text_selection",
         "inapp_zoom_in", "inapp_zoom_out", "inapp_translate",
         "inapp_text_recognize", "inapp_save", "inapp_quick_save",
+        "inapp_history_prev", "inapp_history_next",
     };
     return keys;
 }
@@ -598,8 +599,11 @@ std::optional<KeyBinding> parse_shortcut_to_qt(const QString &text) {
     for (const auto &p : parts) {
         if (key_map.contains(p)) {
             key = key_map.value(p);
-        } else if (p.size() == 1 && (p[0].isLetter() || p[0].isDigit())) {
-            // Key_0..Key_9 equal '0'..'9', the same trick as letters.
+        } else if (p.size() == 1 && (p[0].isLetter() || p[0].isDigit() ||
+                                     (p[0].toLatin1() >= ' ' && p[0].toLatin1() < 127))) {
+            // Key_0..Key_9 equal '0'..'9' and, for printable ASCII, the key code
+            // equals the character code, so letters, digits and punctuation like
+            // the history keys ',' and '.' all parse the same way.
             key = p.toUpper()[0].unicode();
         } else if (p.startsWith('f')) {
             bool ok = false;

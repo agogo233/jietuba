@@ -61,6 +61,7 @@ ScreenshotShortcutHandler::ScreenshotShortcutHandler(ScreenshotWindow *window) :
         "inapp_delete", "inapp_restore_last_region",
         "inapp_zoom_in", "inapp_zoom_out", "inapp_translate",
         "inapp_text_recognize", "inapp_save", "inapp_quick_save",
+        "inapp_history_prev", "inapp_history_next",
     };
     for (const auto &entry : ANNOTATION_TOOL_SHORTCUTS()) {
         tool_shortcuts_.emplace_back(entry.config_key, entry.tool_id);
@@ -126,8 +127,21 @@ bool ScreenshotShortcutHandler::handle_key(QInputEvent *event) {
     if (key == Qt::Key_Escape) {
         auto *text_item = is_text_editing && w->view ? w->view->get_active_text_item() : nullptr;
         if (text_item) w->view->end_text_edit(text_item);
+        else if (w->action_handler && w->action_handler->history_navigator && w->action_handler->history_navigator->browsing())
+            w->action_handler->handle_history_return();  // Returns to the live endpoint.
         else w->cleanup_and_close();
         return true;
+    }
+    // History browsing, after text editing: ',' and '.' type into text items.
+    if (!is_text_editing && w->action_handler) {
+        if (match(event, "inapp_history_prev")) {
+            if (!event_is_auto_repeat(event)) w->action_handler->handle_history_prev();
+            return true;
+        }
+        if (match(event, "inapp_history_next")) {
+            if (!event_is_auto_repeat(event)) w->action_handler->handle_history_next();
+            return true;
+        }
     }
     if (match(event, "inapp_restore_last_region") && restore_last_region()) return true;
     if (match(event, "inapp_confirm")) {
@@ -516,6 +530,9 @@ void ScreenshotWindow::connect_toolbar_signals() {
     });
     connect(toolbar, &Toolbar::quick_save_clicked, this, [this] {
         if (action_handler) action_handler->handle_quick_save();
+    });
+    connect(toolbar, &Toolbar::history_clicked, this, [this] {
+        if (action_handler) action_handler->handle_history_prev();
     });
     connect(toolbar, &Toolbar::pin_clicked, this, [this] {
         if (action_handler) action_handler->handle_pin();

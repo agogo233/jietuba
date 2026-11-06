@@ -133,6 +133,7 @@ public:
     ToolbarDragHandle *drag_handle = nullptr;
     QPushButton *long_screenshot_btn = nullptr, *save_btn = nullptr, *quick_save_btn = nullptr, *screenshot_translate_btn = nullptr;
     QPushButton *text_recognize_btn = nullptr, *scan_code_btn = nullptr, *gif_btn = nullptr, *copy_btn = nullptr;
+    QPushButton *history_btn = nullptr;
     QPushButton *pen_btn = nullptr, *highlighter_btn = nullptr, *mosaic_btn = nullptr, *spotlight_btn = nullptr;
     QPushButton *watermark_btn = nullptr, *arrow_btn = nullptr, *number_btn = nullptr, *rect_btn = nullptr;
     QPushButton *ellipse_btn = nullptr, *text_btn = nullptr, *eraser_btn = nullptr;
@@ -159,6 +160,7 @@ signals:
     void cancel_clicked();
     void undo_clicked();
     void redo_clicked();
+    void history_clicked();
     void long_screenshot_clicked();
     void screenshot_translate_clicked();
     void text_recognize_clicked();

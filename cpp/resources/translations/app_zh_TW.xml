@@ -395,6 +395,14 @@ Replace it?</source>
         <translation>刪除選取圖元</translation>
     </message>
     <message>
+        <source>Previous Screenshot</source>
+        <translation>上一張截圖</translation>
+    </message>
+    <message>
+        <source>Next Screenshot</source>
+        <translation>下一張截圖</translation>
+    </message>
+    <message>
         <source>Restore Last Region</source>
         <translation>恢復上次選區</translation>
     </message>
@@ -1742,6 +1750,10 @@ Replace it?</source>
     <message>
         <source>Save to file</source>
         <translation>儲存到檔案</translation>
+    </message>
+    <message>
+        <source>Previous screenshot (,)</source>
+        <translation>上一張截圖 (,)</translation>
     </message>
     <message>
         <source>Quick save: straight to the save folder, no dialog</source>
@@ -6102,6 +6114,10 @@ Replace: move the current data there; the data already in that folder will be de
         <translation>取消復原</translation>
     </message>
     <message>
+        <source>Previous screenshot</source>
+        <translation>上一張截圖</translation>
+    </message>
+    <message>
         <source>Cancel screenshot</source>
         <translation>結束截圖</translation>
     </message>
@@ -7844,6 +7860,13 @@ Replace it?</source>
     <message>
         <source>Copied files and folders, shown with their icons, names and sizes.</source>
         <translation>複製的檔案和資料夾，顯示圖示、名稱和大小。</translation>
+    </message>
+</context>
+<context>
+    <name>HistoryNavigator</name>
+    <message>
+        <source>No earlier screenshot</source>
+        <translation>沒有更早的截圖</translation>
     </message>
 </context>
 </TS>

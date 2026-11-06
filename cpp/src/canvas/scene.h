@@ -41,6 +41,10 @@ public:
     void confirm_selection();
     // An already confirmed selection, shown and announced like a dragged one.
     void preset_selection(const QRectF &rect);
+    // Swaps the active undo stack (the one tools push to) for another, keeping
+    // the number-cursor refresh wired. Used while browsing screenshot history,
+    // so annotations drawn there stay off the live session's stack.
+    void set_active_undo_stack(CommandUndoStack *stack);
     void activate_tool(const QString &tool_id);
     // Single entry for colour/width/opacity; emits the cursor refresh signals.
     void update_style(const std::optional<QColor> &color = std::nullopt, const std::optional<double> &width = std::nullopt,

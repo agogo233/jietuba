@@ -379,6 +379,14 @@ Replace it?</translation>
         <translation>Delete Selected</translation>
     </message>
     <message>
+        <source>Previous Screenshot</source>
+        <translation>Previous Screenshot</translation>
+    </message>
+    <message>
+        <source>Next Screenshot</source>
+        <translation>Next Screenshot</translation>
+    </message>
+    <message>
         <source>Restore Last Region</source>
         <translation>Restore Last Region</translation>
     </message>
@@ -1717,6 +1725,10 @@ Replace it?</translation>
     <message>
         <source>Save to file</source>
         <translation>Save to file</translation>
+    </message>
+    <message>
+        <source>Previous screenshot (,)</source>
+        <translation>Previous screenshot (,)</translation>
     </message>
     <message>
         <source>Quick save: straight to the save folder, no dialog</source>
@@ -5661,6 +5673,10 @@ Replace: move the current data there; the data already in that folder will be de
         <translation>Redo</translation>
     </message>
     <message>
+        <source>Previous screenshot</source>
+        <translation>Previous screenshot</translation>
+    </message>
+    <message>
         <source>Cancel screenshot</source>
         <translation>Cancel screenshot</translation>
     </message>
@@ -7411,6 +7427,13 @@ Replace it?</translation>
     <message>
         <source>Copied files and folders, shown with their icons, names and sizes.</source>
         <translation>Copied files and folders, shown with their icons, names and sizes.</translation>
+    </message>
+</context>
+<context>
+    <name>HistoryNavigator</name>
+    <message>
+        <source>No earlier screenshot</source>
+        <translation>No earlier screenshot</translation>
     </message>
 </context>
 </TS>

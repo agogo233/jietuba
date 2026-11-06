@@ -192,6 +192,7 @@ void Toolbar::init_ui() {
     text_recognize_btn = add_button("text_recognize", QString::fromUtf8("svg/文字识别.svg"), "Recognize text (OCR)", wide, [this] { emit text_recognize_clicked(); });
     scan_code_btn = add_button("scan_code", QString::fromUtf8("svg/扫码.svg"), "Scan QR code / barcode", wide, [this] { emit scan_code_clicked(); });
     gif_btn = add_button("gif", "svg/gif.svg", "GIF / Video recording", wide, [this] { emit gif_record_clicked(); });
+    history_btn = add_button("history", QString::fromUtf8("svg/后退.svg"), "Previous screenshot (,)", wide, [this] { emit history_clicked(); });
     // Copy is laid out only in pin windows; the capture layout has no copy button.
     copy_btn = add_button("copy", "svg/copy.svg", "Copy image", wide, [this] { emit copy_clicked(); });
 

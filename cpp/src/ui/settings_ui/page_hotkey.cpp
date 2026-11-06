@@ -30,6 +30,8 @@ const std::vector<InAppKey> SCREENSHOT_KEYS = {
     {"inapp_zoom_out", "Magnifier Zoom Out", "pagedown"},
     {"inapp_translate", "Screenshot Translate", "shift+c"},
     {"inapp_text_recognize", "Recognize Text", "shift+t"},
+    {"inapp_history_prev", "Previous Screenshot", ","},
+    {"inapp_history_next", "Next Screenshot", "."},
 };
 
 const std::vector<InAppKey> PIN_KEYS = {
@@ -352,6 +354,8 @@ IconSource inapp_icon(const QString &cfg_key) {
         {"inapp_zoom_out", FluentIcon::Search},
         {"inapp_translate", FluentIcon::Language},
         {"inapp_text_recognize", QString::fromUtf8("文字识别.svg")},
+        {"inapp_history_prev", QString::fromUtf8("后退.svg")},
+        {"inapp_history_next", QString::fromUtf8("前进.svg")},
         {"inapp_tool_cursor", QString::fromUtf8("鼠标.svg")},
         {"inapp_tool_pen", QString::fromUtf8("画笔.svg")},
         {"inapp_tool_highlighter", QString::fromUtf8("荧光笔.svg")},

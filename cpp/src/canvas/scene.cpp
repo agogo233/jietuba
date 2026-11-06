@@ -39,7 +39,7 @@ CanvasScene::CanvasScene(const QImage &background_image, const QRectF &rect, boo
                 {{"scene_rect", geometry_text(scene_rect)}, {"scene_rect_actual", geometry_text(sceneRect())}}), "CanvasScene");
     undo_stack = new CommandUndoStack(this);
     // Refreshes the number cursor after undo and redo.
-    connect(undo_stack, &QUndoStack::indexChanged, this, [this](int) { on_undo_stack_changed(); });
+    set_active_undo_stack(undo_stack);
     // The watermark covers the selection and follows it.
     connect(selection_model, &SelectionModel::rectChanged, this, [this](QRectF r) { sync_watermark_rect(r); });
     tool_settings_manager = get_tool_settings_manager();
@@ -106,6 +106,14 @@ void CanvasScene::sync_watermark_rect(const QRectF &rect) {
 void CanvasScene::on_undo_stack_changed() {
     if (tool_controller && tool_controller->current_tool && tool_controller->current_tool->id() == "number")
         emit cursor_tool_update_requested("number", true);
+}
+
+void CanvasScene::set_active_undo_stack(CommandUndoStack *stack) {
+    // One connection at a time; a stack swapped back in must not get a second one.
+    if (undo_stack) disconnect(undo_stack, nullptr, this, nullptr);
+    undo_stack = stack;
+    if (tool_controller) tool_controller->ctx.undo_stack = stack;
+    if (undo_stack) connect(undo_stack, &QUndoStack::indexChanged, this, [this](int) { on_undo_stack_changed(); });
 }
 
 void CanvasScene::refresh_number_cursor_if_active(bool force) {
