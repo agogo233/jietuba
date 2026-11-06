@@ -60,7 +60,7 @@ ActionTools::ActionTools(CanvasScene *scene, ToolSettingsManager *config_manager
             const auto data = manager.get_image_data(image_id);
             return data && !data->isEmpty() ? QImage::fromData(*data) : QImage();
         },
-        [this] { return parent_window && parent_window->isVisible(); },
+        [this, parent_window] { return parent_window && parent_window->isVisible(); },
         [](const QString &message) { show_toast(message); });
 }
 

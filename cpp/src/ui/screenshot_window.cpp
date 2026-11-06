@@ -19,6 +19,7 @@
 #include "stitch/scroll_window.h"
 #include "tools/controller.h"
 #include "tools/cursor_manager.h"
+#include "tools/history_navigator.h"
 #include "tools/mosaic.h"
 #include "tools/number.h"
 #include "tools/watermark.h"
