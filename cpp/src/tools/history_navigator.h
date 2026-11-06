@@ -7,10 +7,11 @@
 #include <QString>
 #include <functional>
 
+class QWidget;
+
 namespace jietuba {
 class CanvasScene;
 class CommandUndoStack;
-class QWidget;
 
 // Browses previous captures inside an open capture window ("history switching").
 // The capture being edited is the "live endpoint": the first step away snapshots
