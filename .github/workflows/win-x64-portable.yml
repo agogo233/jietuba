@@ -1,0 +1,66 @@
+name: Win x64 Portable Build (Full)
+
+# Windows x64 便携版（jietuba_pp.exe，单 exe + 内嵌 ONNX Runtime + 默认 PP-OCR small 模型）：
+# master2 推送或手动触发，构建后做 smoke 校验，打包成单层 zip 上传为 Actions artifact。
+# Qt 静态 SDK 与 ONNX Runtime 均走缓存，命中时无需现场编译/下载。
+on:
+  workflow_dispatch:
+  push:
+    branches: [master2]
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    # 构建脚本面向 Windows PowerShell 5.1，与开发者本机一致。
+    shell: powershell
+    working-directory: cpp
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Cache Qt static SDK
+        id: qt
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: cpp/.sdk/6.11.0/msvc2022_64_static
+          key: static-qt-6.11.0-x64-${{ hashFiles('cpp/scripts/build_static_qt.ps1') }}
+
+      - if: steps.qt.outputs.cache-hit != 'true'
+        run: .\scripts\build_static_qt.ps1 -Arch x64
+
+      - name: Cache ONNX Runtime
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: cpp/build/ort/x64
+          key: ort-x64-${{ hashFiles('rust_libs/ppocr_rust/catalog.json') }}
+
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          workspaces: cpp/native -> ../build/static-full/native
+          # 只在主分支保存缓存，tag 等其它引用会恢复但不会写回，避免挤占缓存。
+          save-if: ${{ github.ref == 'refs/heads/master2' }}
+
+      - name: Build portable exe
+        run: .\build.cmd -Static -Arch x64 -Full
+
+      - name: Smoke test
+        # 在隔离沙箱内启动 jietuba_pp.exe，校验其能运行、写日志，并确认内嵌 ONNX Runtime 落入 models\。
+        run: .\scripts\smoke_static.ps1 -Exe dist\Release-static-full\jietuba_pp.exe
+
+      - name: Package (single-layer zip)
+        # Compress-Archive 对 dist\Release-static-full\* 展开，exe/models/licenses 直接位于 zip 根，不套外层目录。
+        run: |
+          $version = (Get-Content ..\VERSION -Raw).Trim()
+          Compress-Archive -Path dist\Release-static-full\* -DestinationPath "..\jietuba_pp-win-x64-$version.zip" -Force
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: jietuba_pp-win-x64-portable
+          path: jietuba_pp-win-x64-*.zip
+          if-no-files-found: error
