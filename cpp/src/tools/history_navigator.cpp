@@ -70,15 +70,17 @@ void HistoryNavigator::apply_entry(int index, const QImage &image) {
     if (host) host->replace_background(image);
     else if (scene_->background) scene_->background->update_image(image);
     // A stored selection is in image-local coordinates; it is placed back on the scene at
-    // the background's origin and clipped to the scene, since the desktop layout may have
-    // changed since the capture. Without one the whole image is selected, as before, so
-    // the user can confirm, crop or copy it at once.
+    // the background's origin and clipped to both the scene and the image itself, since the
+    // desktop layout may have changed since the capture (a monitor unplugged shrinks the
+    // desktop). Without one the whole image is selected, as before, so the user can
+    // confirm, crop or copy it at once.
     const QSizeF size(image.size());
     QRectF target(scene_->scene_rect.topLeft(), size);
     if (selection_loader_) {
         const QRectF stored = selection_loader_(history_[index]);
         if (stored.isValid() && !stored.isEmpty()) {
-            const QRectF restored = stored.translated(scene_->scene_rect.topLeft()).intersected(scene_->scene_rect);
+            QRectF restored = stored.translated(scene_->scene_rect.topLeft());
+            restored = restored.intersected(scene_->scene_rect).intersected(QRectF(scene_->scene_rect.topLeft(), size));
             if (!restored.isEmpty()) target = restored;
         }
     }
