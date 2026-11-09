@@ -1,5 +1,6 @@
 #include "tools/action.h"
 #include "barcode/barcode.h"
+#include "canvas/items/background_item.h"
 #include "canvas/scene.h"
 #include "canvas/selection_model.h"
 #include "canvas/smart_erase_wait.h"
