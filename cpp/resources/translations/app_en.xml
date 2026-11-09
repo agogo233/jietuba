@@ -132,6 +132,79 @@
         <translation>Smart Selection</translation>
     </message>
     <message>
+        <source>Screenshot History</source>
+        <translation>Screenshot History</translation>
+    </message>
+    <message>
+        <source>Record Screenshots</source>
+        <translation>Record Screenshots</translation>
+    </message>
+    <message>
+        <source>Keep this app's screenshots for history switching, independently of the clipboard history.</source>
+        <translation>Keep this app's screenshots for history switching, independently of the clipboard history.</translation>
+    </message>
+    <message>
+        <source>Keep Screenshots</source>
+        <translation>Keep Screenshots</translation>
+    </message>
+    <message>
+        <source>Screenshots older than this are deleted. 0 keeps them indefinitely.</source>
+        <translation>Screenshots older than this are deleted. 0 keeps them indefinitely.</translation>
+    </message>
+    <message>
+        <source>Maximum Entries</source>
+        <translation>Maximum Entries</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this count.</source>
+        <translation>Oldest entries are deleted beyond this count.</translation>
+    </message>
+    <message>
+        <source>Maximum Total Size (MB)</source>
+        <translation>Maximum Total Size (MB)</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this total.</source>
+        <translation>Oldest entries are deleted beyond this total.</translation>
+    </message>
+    <message>
+        <source>Deletes every stored screenshot on disk.</source>
+        <translation>Deletes every stored screenshot on disk.</translation>
+    </message>
+    <message>
+        <source>Clear Now</source>
+        <translation>Clear Now</translation>
+    </message>
+    <message>
+        <source>Delete every stored screenshot?</source>
+        <translation>Delete every stored screenshot?</translation>
+    </message>
+    <message>
+        <source>Screenshot history cleared</source>
+        <translation>Screenshot history cleared</translation>
+    </message>
+    <message>
+        <source>Indefinitely</source>
+        <translation>Indefinitely</translation>
+    </message>
+    <message>
+        <source>3 days</source>
+        <translation>3 days</translation>
+    </message>
+    <message>
+        <source>7 days</source>
+        <translation>7 days</translation>
+    </message>
+    <message>
+        <source>14 days</source>
+        <translation>14 days</translation>
+    </message>
+    <message>
+        <source>30 days</source>
+        <translation>30 days</translation>
+    </message>
+
+    <message>
         <source>Save Settings</source>
         <translation>Save Settings</translation>
     </message>

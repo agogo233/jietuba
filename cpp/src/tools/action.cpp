@@ -3,8 +3,6 @@
 #include "canvas/scene.h"
 #include "canvas/selection_model.h"
 #include "canvas/smart_erase_wait.h"
-#include "clipboard/core/manager.h"
-#include "clipboard/core/models.h"
 #include "core/background_tasks.h"
 #include "core/clipboard_utils.h"
 #include "core/i18n.h"
@@ -16,6 +14,7 @@
 #include "pin/pin_window.h"
 #include "settings/tool_settings.h"
 #include "text_recognition/text_recognition.h"
+#include "tools/capture_history.h"
 #include "tools/controller.h"
 #include "tools/history_navigator.h"
 #include "tools/number.h"
@@ -41,25 +40,13 @@ constexpr int WAIT_BAR_DELAY_MS = 200;
 
 ActionTools::ActionTools(CanvasScene *scene, ToolSettingsManager *config_manager, QWidget *parent_window)
     : scene(scene), config_manager(config_manager), parent_window(parent_window), export_service(scene),
+      capture_history_(std::make_shared<CaptureHistory>()),
       save_service(std::make_shared<SaveService>(config_manager ? *config_manager : *get_tool_settings_manager())) {
-    // History switching browses this application's captures in the clipboard history.
+    // History switching browses this application's own captures, independent of the clipboard.
     history_navigator = std::make_unique<HistoryNavigator>(
         scene, parent_window,
-        [] {
-            auto &manager = clipboard::ClipboardManager::instance();
-            if (!manager.is_available()) return QList<QString>();
-            const clipboard::FilterRule rule{QStringLiteral("image"), clipboard::OWN_SOURCE_APP};
-            QList<QString> ids;
-            for (const auto &item : manager.get_history(0, 500, std::nullopt, rule)) {
-                if (item.image_id && !item.image_id->isEmpty()) ids.append(*item.image_id);
-            }
-            return ids;
-        },
-        [](const QString &image_id) {
-            auto &manager = clipboard::ClipboardManager::instance();
-            const auto data = manager.get_image_data(image_id);
-            return data && !data->isEmpty() ? QImage::fromData(*data) : QImage();
-        },
+        [history = capture_history_] { return history->entries(); },
+        [history = capture_history_](const QString &id) { return history->load(id); },
         [this, parent_window] { return parent_window && parent_window->isVisible(); },
         [](const QString &message) { show_toast(message); });
 }
@@ -94,6 +81,8 @@ void ActionTools::copy_save_and_close(bool close_after) {
         if (parent_window && close_after) parent_window->hide();
         QImage original;
         if (has_annotations(scene->get_drawing_items_in_rect(selection_rect))) original = export_service.export_base_image_only(selection_rect);
+        // Without annotations `image` already is the base, so no second export is needed.
+        record_capture_history(original.isNull() ? image : original);
         deliver_screenshot(image, config_manager, true, "capture", {}, original, save_service);
         log_debug(T("已交给后台复制到剪贴板"), "Action");
         if (parent_window && close_after) cleanup_and_close();
@@ -119,6 +108,7 @@ void ActionTools::handle_save(bool close_after) {
     // A smart erase still rebuilding: the capture goes at once and the save window opens when it is done.
     finish_when_ready(selection_rect, [this, selection_rect, base_name] {
         const auto image = export_service.export_image(selection_rect);
+        record_capture_history(export_service.export_base_image_only(selection_rect));
         // The capture ends before the save window opens. That window runs once the click
         // asking for it has returned, owning nothing of the capture, which is being deleted.
         cleanup_and_close();
@@ -134,6 +124,7 @@ void ActionTools::handle_quick_save() {
     remember_last_region(rect);
     finish_when_ready(rect, [this, rect] {
         const auto image = export_service.export_image(rect);
+        record_capture_history(export_service.export_base_image_only(rect));
         const auto [success, path] = save_service->save_qimage(image, config_manager->get_screenshot_save_path(), "", "", config_manager->get_screenshot_format());
         if (success) {
             save_original_beside(rect, path.value_or(QString()));
@@ -189,8 +180,9 @@ void ActionTools::handle_pin(bool close_after) {
     if (parent_window && close_after) pin_window->activateWindow();
     const auto original = has_annotations(drawing_items) ? base_image : QImage();
     // The pin finishes a smart erase still rebuilding by itself; only the copy for the clipboard waits.
-    const auto finish = [this, selection_rect, original, close_after] {
+    const auto finish = [this, selection_rect, base_image, original, close_after] {
         const auto result_image = export_service.export_image(selection_rect);
+        record_capture_history(original.isNull() ? base_image : original);
         if (parent_window && close_after) parent_window->hide();
         deliver_screenshot(result_image, config_manager, true, "pin", {}, original, save_service);
         log_debug(T("已交给后台复制到剪贴板"), "PinAction");
@@ -316,6 +308,23 @@ void ActionTools::temporarily_exit_editing() {
     }
     // Clears smart-edit selection and the brush indicator through a signal, so actions never reach into the view.
     emit scene->editing_cleanup_requested();
+}
+
+void ActionTools::record_capture_history(const QImage &base_image) {
+    if (!config_manager->get_capture_history_enabled()) return;
+    // A history image confirmed while browsing is already stored; recording again would
+    // duplicate the same base with a new timestamp.
+    if (history_navigator && history_navigator->browsing()) return;
+    // Encoding and writing a PNG are slow; captures are never blocked by the history.
+    // The limits are snapshotted here, on the UI thread, so the task never reads QSettings.
+    const auto history = capture_history_;
+    const CaptureHistoryLimits limits = CaptureHistory::limits();
+    try {
+        background_tasks::start_thread([history, base_image, limits] { history->record(base_image, limits); });
+    } catch (const std::runtime_error &) {
+        // While preparing an update no new threads start; run inline so the entry is kept.
+        history->record(base_image, limits);
+    }
 }
 
 void ActionTools::cleanup_and_close() {

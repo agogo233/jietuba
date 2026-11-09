@@ -131,6 +131,78 @@
         <translation>스마트 선택</translation>
     </message>
     <message>
+        <source>Screenshot History</source>
+        <translation>스크린샷 기록</translation>
+    </message>
+    <message>
+        <source>Record Screenshots</source>
+        <translation>스크린샷 기록</translation>
+    </message>
+    <message>
+        <source>Keep this app's screenshots for history switching, independently of the clipboard history.</source>
+        <translation>클립보드 기록과 별개로, 기록 전환을 위해 이 앱의 스크린샷을 보관합니다.</translation>
+    </message>
+    <message>
+        <source>Keep Screenshots</source>
+        <translation>보관 기간</translation>
+    </message>
+    <message>
+        <source>Screenshots older than this are deleted. 0 keeps them indefinitely.</source>
+        <translation>이보다 오래된 스크린샷은 삭제됩니다. 0이면 무기한 보관.</translation>
+    </message>
+    <message>
+        <source>Maximum Entries</source>
+        <translation>최대 개수</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this count.</source>
+        <translation>이 개수를 초과하면 오래된 항목부터 삭제됩니다.</translation>
+    </message>
+    <message>
+        <source>Maximum Total Size (MB)</source>
+        <translation>최대 총 크기 (MB)</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this total.</source>
+        <translation>이 총 크기를 초과하면 오래된 항목부터 삭제됩니다.</translation>
+    </message>
+    <message>
+        <source>Deletes every stored screenshot on disk.</source>
+        <translation>디스크에 저장된 모든 스크린샷을 삭제합니다.</translation>
+    </message>
+    <message>
+        <source>Clear Now</source>
+        <translation>지금 지우기</translation>
+    </message>
+    <message>
+        <source>Delete every stored screenshot?</source>
+        <translation>저장된 모든 스크린샷을 삭제할까요?</translation>
+    </message>
+    <message>
+        <source>Screenshot history cleared</source>
+        <translation>스크린샷 기록이 지워졌습니다</translation>
+    </message>
+    <message>
+        <source>Indefinitely</source>
+        <translation>무기한</translation>
+    </message>
+    <message>
+        <source>3 days</source>
+        <translation>3일</translation>
+    </message>
+    <message>
+        <source>7 days</source>
+        <translation>7일</translation>
+    </message>
+    <message>
+        <source>14 days</source>
+        <translation>14일</translation>
+    </message>
+    <message>
+        <source>30 days</source>
+        <translation>30일</translation>
+    </message>
+    <message>
         <source>Save Settings</source>
         <translation>저장 설정</translation>
     </message>

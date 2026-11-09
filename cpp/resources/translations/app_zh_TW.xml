@@ -125,6 +125,78 @@
         <translation>智慧選區</translation>
     </message>
     <message>
+        <source>Screenshot History</source>
+        <translation>截圖歷史</translation>
+    </message>
+    <message>
+        <source>Record Screenshots</source>
+        <translation>記錄截圖</translation>
+    </message>
+    <message>
+        <source>Keep this app's screenshots for history switching, independently of the clipboard history.</source>
+        <translation>保留本應用的截圖用於歷史切換，不依賴剪貼簿歷史。</translation>
+    </message>
+    <message>
+        <source>Keep Screenshots</source>
+        <translation>保留時間</translation>
+    </message>
+    <message>
+        <source>Screenshots older than this are deleted. 0 keeps them indefinitely.</source>
+        <translation>超過此時長的截圖將被刪除。0 表示永久保留。</translation>
+    </message>
+    <message>
+        <source>Maximum Entries</source>
+        <translation>數量上限</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this count.</source>
+        <translation>超過此數量時刪除最舊的截圖。</translation>
+    </message>
+    <message>
+        <source>Maximum Total Size (MB)</source>
+        <translation>總容量上限 (MB)</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this total.</source>
+        <translation>超過此總容量時刪除最舊的截圖。</translation>
+    </message>
+    <message>
+        <source>Deletes every stored screenshot on disk.</source>
+        <translation>刪除磁碟上儲存的所有截圖。</translation>
+    </message>
+    <message>
+        <source>Clear Now</source>
+        <translation>立即清空</translation>
+    </message>
+    <message>
+        <source>Delete every stored screenshot?</source>
+        <translation>確定刪除所有已儲存的截圖？</translation>
+    </message>
+    <message>
+        <source>Screenshot history cleared</source>
+        <translation>截圖歷史已清空</translation>
+    </message>
+    <message>
+        <source>Indefinitely</source>
+        <translation>永久</translation>
+    </message>
+    <message>
+        <source>3 days</source>
+        <translation>3 天</translation>
+    </message>
+    <message>
+        <source>7 days</source>
+        <translation>7 天</translation>
+    </message>
+    <message>
+        <source>14 days</source>
+        <translation>14 天</translation>
+    </message>
+    <message>
+        <source>30 days</source>
+        <translation>30 天</translation>
+    </message>
+    <message>
         <source>Save Settings</source>
         <translation>截圖儲存</translation>
     </message>

@@ -134,6 +134,78 @@
         <translation>スマート選択</translation>
     </message>
     <message>
+        <source>Screenshot History</source>
+        <translation>スクリーンショット履歴</translation>
+    </message>
+    <message>
+        <source>Record Screenshots</source>
+        <translation>スクリーンショットを記録</translation>
+    </message>
+    <message>
+        <source>Keep this app's screenshots for history switching, independently of the clipboard history.</source>
+        <translation>履歴切り替え用にこのアプリのスクリーンショットを保持します。クリップボード履歴とは独立しています。</translation>
+    </message>
+    <message>
+        <source>Keep Screenshots</source>
+        <translation>保持期間</translation>
+    </message>
+    <message>
+        <source>Screenshots older than this are deleted. 0 keeps them indefinitely.</source>
+        <translation>この期間より古いスクリーンショットは削除されます。0 で無期限。</translation>
+    </message>
+    <message>
+        <source>Maximum Entries</source>
+        <translation>最大件数</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this count.</source>
+        <translation>この件数を超えると古いものから削除されます。</translation>
+    </message>
+    <message>
+        <source>Maximum Total Size (MB)</source>
+        <translation>最大合計サイズ (MB)</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this total.</source>
+        <translation>この合計サイズを超えると古いものから削除されます。</translation>
+    </message>
+    <message>
+        <source>Deletes every stored screenshot on disk.</source>
+        <translation>ディスクに保存されたすべてのスクリーンショットを削除します。</translation>
+    </message>
+    <message>
+        <source>Clear Now</source>
+        <translation>今すぐクリア</translation>
+    </message>
+    <message>
+        <source>Delete every stored screenshot?</source>
+        <translation>保存されたすべてのスクリーンショットを削除しますか？</translation>
+    </message>
+    <message>
+        <source>Screenshot history cleared</source>
+        <translation>スクリーンショット履歴をクリアしました</translation>
+    </message>
+    <message>
+        <source>Indefinitely</source>
+        <translation>無期限</translation>
+    </message>
+    <message>
+        <source>3 days</source>
+        <translation>3日</translation>
+    </message>
+    <message>
+        <source>7 days</source>
+        <translation>7日</translation>
+    </message>
+    <message>
+        <source>14 days</source>
+        <translation>14日</translation>
+    </message>
+    <message>
+        <source>30 days</source>
+        <translation>30日</translation>
+    </message>
+    <message>
         <source>Save Settings</source>
         <translation>スクショ保存</translation>
     </message>

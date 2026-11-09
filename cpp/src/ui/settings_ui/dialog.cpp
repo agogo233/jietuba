@@ -763,6 +763,11 @@ void SettingsDialog::reset_screenshot_settings_page() {
     if (magnifier_color_formats) magnifier_color_formats = color_formats::default_formats();
     fill_ocr_engines(this, defaults.value("ocr_engine").toString(), defaults.value("ppocr_model").toString());
     select_data(attr<QComboBox>("ocr_result_position_combo"), defaults.value("ocr_result_position"));
+    if (auto *toggle = attr_widget("capture_history_enabled_toggle")) set_checked(toggle, defaults.value("capture_history_enabled").toBool());
+    if (auto *combo = attr<QComboBox>("capture_history_retention_combo"))
+        combo->setCurrentIndex(std::max(0, combo->findData(defaults.value("capture_history_retention_days").toInt())));
+    if (auto *spin = attr<QSpinBox>("capture_history_count_spin")) spin->setValue(defaults.value("capture_history_max_count").toInt());
+    if (auto *spin = attr<QSpinBox>("capture_history_size_spin")) spin->setValue(defaults.value("capture_history_max_total_mb").toInt());
 }
 
 void SettingsDialog::reset_log_page() {
@@ -923,6 +928,14 @@ void SettingsDialog::save_changes(QSet<QString> changed) {
     if (auto *label = attr_widget("save_path_lbl"); label && has("save_path_lbl")) config_manager->set_screenshot_save_path(text_of(label));
     if (auto *combo = attr<QComboBox>("screenshot_format_combo"); combo && has("screenshot_format_combo")) config_manager->set_screenshot_format(combo->currentData().toString());
     if (auto *combo = attr<QComboBox>("save_dialog_style_combo"); combo && has("save_dialog_style_combo")) config_manager->set_save_dialog_style(combo->currentData().toString());
+    if (auto *toggle = attr_widget("capture_history_enabled_toggle"); toggle && has("capture_history_enabled_toggle"))
+        config_manager->set_capture_history_enabled(checked_of(toggle));
+    if (auto *combo = attr<QComboBox>("capture_history_retention_combo"); combo && has("capture_history_retention_combo"))
+        config_manager->set_capture_history_retention_days(combo->currentData().toInt());
+    if (auto *spin = attr<QSpinBox>("capture_history_count_spin"); spin && has("capture_history_count_spin"))
+        config_manager->set_capture_history_max_count(spin->value());
+    if (auto *spin = attr<QSpinBox>("capture_history_size_spin"); spin && has("capture_history_size_spin"))
+        config_manager->set_capture_history_max_total_mb(spin->value());
 
     // 3.5 Magnifier.
     for (const auto &[attr_name, key] : {std::make_pair("magnifier_enabled_toggle", "magnifier_enabled"), std::make_pair("magnifier_grid_toggle", "magnifier_grid"),
@@ -1233,22 +1246,23 @@ QVariantMap SettingsDialog::snapshot_settings() const {
     if (has_attr("speech_group")) snap["speech_voice_combos"] = speech_voice_choices(this);
     // Switches.
     for (const char *name : {"ocr_copy_directly_toggle", "barcode_copy_single_toggle", "cross_tool_selection_toggle", "text_always_on_top_toggle", "smart_animation_toggle",
-                             "save_toggle", "screenshot_pin_save_toggle", "clipboard_file_reference_toggle", "screenshot_save_original_toggle", "watermark_auto_toggle",
-                             "magnifier_enabled_toggle", "magnifier_grid_toggle", "magnifier_hint_toggle", "ocr_enable_toggle", "ocr_grayscale_toggle",
-                             "ocr_upscale_toggle", "split_sentences_toggle", "preserve_formatting_toggle", "translation_auto_close_toggle", "log_toggle", "clipboard_enabled_toggle",
-                             "autostart_toggle", "run_as_admin_toggle", "show_main_window_toggle", "pin_auto_toolbar_toggle", "info_hide_on_drag_toggle",
-                             "preload_screenshot_toggle", "preload_toolbar_toggle", "preload_ocr_toggle", "preload_settings_toggle", "preload_clipboard_toggle"})
+                              "save_toggle", "screenshot_pin_save_toggle", "clipboard_file_reference_toggle", "screenshot_save_original_toggle", "watermark_auto_toggle",
+                              "magnifier_enabled_toggle", "magnifier_grid_toggle", "magnifier_hint_toggle", "ocr_enable_toggle", "ocr_grayscale_toggle",
+                              "ocr_upscale_toggle", "split_sentences_toggle", "preserve_formatting_toggle", "translation_auto_close_toggle", "log_toggle", "clipboard_enabled_toggle",
+                              "autostart_toggle", "run_as_admin_toggle", "show_main_window_toggle", "pin_auto_toolbar_toggle", "info_hide_on_drag_toggle",
+                              "preload_screenshot_toggle", "preload_toolbar_toggle", "preload_ocr_toggle", "preload_settings_toggle", "preload_clipboard_toggle",
+                              "capture_history_enabled_toggle"})
         if (auto *widget = attr_widget(name)) snap[name] = checked_of(widget);
     // Combos.
     for (const char *name : {"screenshot_format_combo", "save_dialog_style_combo", "shift_line_angle_combo", "ocr_result_position_combo", "translation_provider_combo", "translation_target_combo",
                              "log_level_combo", "language_combo", "engine_combo", "cursor_move_combo", "clipboard_pick_combo", "log_retention_combo", "_ui_theme_combo",
                              "_ui_scale_combo", "_dialog_scale_combo", "_selection_border_combo", "_selection_handle_combo", "_selection_handle_size_combo",
-                             "_color_picker_style_combo", "smart_mode_combo", "capture_engine_combo"})
+                              "_color_picker_style_combo", "smart_mode_combo", "capture_engine_combo", "capture_history_retention_combo"})
         if (auto *combo = attr<QComboBox>(name)) snap[name] = combo->currentIndex();
     // The OCR list reorders as models are downloaded or deleted, so it compares by the item's value.
     if (auto *combo = attr<QComboBox>("ocr_engine_combo")) snap["ocr_engine_combo"] = combo->currentData();
     // Numbers.
-    for (const char *name : {"clipboard_history_limit_spin", "ignore_top_pixels_spinbox", "ocr_scale_spinbox"}) {
+    for (const char *name : {"clipboard_history_limit_spin", "ignore_top_pixels_spinbox", "ocr_scale_spinbox", "capture_history_count_spin", "capture_history_size_spin"}) {
         if (auto *spin = attr<QSpinBox>(name)) snap[name] = spin->value();
         else if (auto *double_spin = attr<QDoubleSpinBox>(name)) snap[name] = double_spin->value();
     }
@@ -1394,6 +1408,11 @@ void SettingsDialog::refresh_settings() {
     if (auto *combo = attr<QComboBox>("screenshot_format_combo"))
         combo->setCurrentIndex(std::max<int>(0, QStringList{"PNG", "JPG", "BMP", "WEBP", "PDF"}.indexOf(config_manager->get_screenshot_format().toUpper())));
     select_data(attr<QComboBox>("save_dialog_style_combo"), config_manager->get_save_dialog_style());
+    if (auto *toggle = attr_widget("capture_history_enabled_toggle")) set_checked(toggle, config_manager->get_capture_history_enabled());
+    if (auto *combo = attr<QComboBox>("capture_history_retention_combo"))
+        combo->setCurrentIndex(std::max(0, combo->findData(config_manager->get_capture_history_retention_days())));
+    if (auto *spin = attr<QSpinBox>("capture_history_count_spin")) spin->setValue(config_manager->get_capture_history_max_count());
+    if (auto *spin = attr<QSpinBox>("capture_history_size_spin")) spin->setValue(config_manager->get_capture_history_max_total_mb());
     for (const auto &[attr_name, key] : {std::make_pair("magnifier_enabled_toggle", "magnifier_enabled"), std::make_pair("magnifier_grid_toggle", "magnifier_grid"),
                                          std::make_pair("magnifier_hint_toggle", "magnifier_hint")})
         if (auto *toggle = attr_widget(attr_name)) set_checked(toggle, config_manager->get_app_setting(key).toBool());

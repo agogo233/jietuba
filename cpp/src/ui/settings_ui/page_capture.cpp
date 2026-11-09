@@ -4,7 +4,9 @@
 #include "ocr/ppocr_models.h"
 #include "settings/color_formats.h"
 #include "settings/tool_settings.h"
+#include "tools/capture_history.h"
 #include "ui/dialogs.h"
+#include "ui/toast.h"
 #include "ui/fluent_lite/buttons.h"
 #include "ui/fluent_lite/inputs.h"
 #include "ui/fluent_lite/labels.h"
@@ -238,6 +240,50 @@ QWidget *create_capture_page(SettingsDialog *dialog) {
     switch_card(dialog, grp_smart, FluentIcon::Sync, "Selection Switch Animation", "Slide the selection when it moves from one window or control to another.",
                 config->get_smart_selection_animation(), "smart_animation_toggle");
     layout->addWidget(grp_smart);
+
+    // ── Screenshot history (this app's own captures, kept without the clipboard) ──
+    auto *grp_history = new SettingsCardGroup(dialog->tr_text("Screenshot History"), view, "capture");
+    switch_card(dialog, grp_history, FluentIcon::History, "Record Screenshots",
+                "Keep this app's screenshots for history switching, independently of the clipboard history.",
+                config->get_capture_history_enabled(), "capture_history_enabled_toggle");
+    auto *retention_card = new SettingCard(FluentIcon::Clock, dialog->tr_text("Keep Screenshots"),
+                                           dialog->tr_text("Screenshots older than this are deleted. 0 keeps them indefinitely."), grp_history);
+    auto *retention_combo = new ComboBox(retention_card);
+    for (const auto &[label, days] : {std::make_pair("Indefinitely", 0), std::make_pair("3 days", 3), std::make_pair("7 days", 7),
+                                      std::make_pair("14 days", 14), std::make_pair("30 days", 30)})
+        retention_combo->addItem(dialog->tr_text(label), days);
+    retention_combo->setCurrentIndex(std::max(0, retention_combo->findData(config->get_capture_history_retention_days())));
+    dialog->set_attr("capture_history_retention_combo", retention_combo);
+    retention_card->addControl(retention_combo);
+    grp_history->addSettingCard(retention_card);
+    auto *count_card = new SettingCard(FluentIcon::List, dialog->tr_text("Maximum Entries"),
+                                       dialog->tr_text("Oldest entries are deleted beyond this count."), grp_history);
+    auto *count_spin = new SpinBox(count_card);
+    count_spin->setRange(1, 500);
+    count_spin->setValue(config->get_capture_history_max_count());
+    dialog->set_attr("capture_history_count_spin", count_spin);
+    count_card->addControl(count_spin);
+    grp_history->addSettingCard(count_card);
+    auto *size_card = new SettingCard(FluentIcon::Calculator, dialog->tr_text("Maximum Total Size (MB)"),
+                                      dialog->tr_text("Oldest entries are deleted beyond this total."), grp_history);
+    auto *size_spin = new SpinBox(size_card);
+    size_spin->setRange(1, 4096);
+    size_spin->setValue(config->get_capture_history_max_total_mb());
+    dialog->set_attr("capture_history_size_spin", size_spin);
+    size_card->addControl(size_spin);
+    grp_history->addSettingCard(size_card);
+    auto *clear_card = new SettingCard(FluentIcon::Delete, dialog->tr_text("Clear History"),
+                                       dialog->tr_text("Deletes every stored screenshot on disk."), grp_history);
+    auto *clear_btn = new PushButton(dialog->tr_text("Clear Now"), clear_card);
+    QObject::connect(clear_btn, &QPushButton::clicked, dialog, [dialog] {
+        if (!show_confirm_dialog(dialog, dialog->tr_text("Clear History"), dialog->tr_text("Delete every stored screenshot?"))) return;
+        CaptureHistory::clear_storage();
+        show_toast(dialog->tr_text("Screenshot history cleared"));
+    });
+    dialog->set_attr("capture_history_clear_btn", clear_btn);
+    clear_card->addControl(clear_btn);
+    grp_history->addSettingCard(clear_card);
+    layout->addWidget(grp_history);
 
     // ── Magnifier ──
     auto *grp_magnifier = new SettingsCardGroup(dialog->tr_text("Magnifier"), view, "capture");
