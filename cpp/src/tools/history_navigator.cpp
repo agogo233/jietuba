@@ -17,9 +17,9 @@ QString history_tr(const char *text) { return i18n_tr(text, "HistoryNavigator");
 }
 
 HistoryNavigator::HistoryNavigator(CanvasScene *scene, QWidget *parent_window, ListLoader list_loader, ImageLoader image_loader,
-                                   ActiveCheck is_active, Notifier notifier)
+                                   ActiveCheck is_active, Notifier notifier, SelectionLoader selection_loader)
     : scene_(scene), parent_window_(parent_window), list_loader_(std::move(list_loader)), image_loader_(std::move(image_loader)),
-      is_active_(std::move(is_active)), notifier_(std::move(notifier)) {}
+      is_active_(std::move(is_active)), notifier_(std::move(notifier)), selection_loader_(std::move(selection_loader)) {}
 
 bool HistoryNavigator::ensure_history() {
     if (history_loaded_) return !history_.isEmpty();
@@ -69,10 +69,20 @@ void HistoryNavigator::apply_entry(int index, const QImage &image) {
     auto *host = dynamic_cast<SelectionInfoHost *>(parent_window_);
     if (host) host->replace_background(image);
     else if (scene_->background) scene_->background->update_image(image);
-    // History images are the exported selections, drawn from the desktop origin;
-    // selecting the whole image lets the user confirm, crop or copy it at once.
+    // A stored selection is in image-local coordinates; it is placed back on the scene at
+    // the background's origin and clipped to the scene, since the desktop layout may have
+    // changed since the capture. Without one the whole image is selected, as before, so
+    // the user can confirm, crop or copy it at once.
     const QSizeF size(image.size());
-    scene_->preset_selection(QRectF(scene_->scene_rect.topLeft(), size));
+    QRectF target(scene_->scene_rect.topLeft(), size);
+    if (selection_loader_) {
+        const QRectF stored = selection_loader_(history_[index]);
+        if (stored.isValid() && !stored.isEmpty()) {
+            const QRectF restored = stored.translated(scene_->scene_rect.topLeft()).intersected(scene_->scene_rect);
+            if (!restored.isEmpty()) target = restored;
+        }
+    }
+    scene_->preset_selection(target);
     index_ = index;
     log_debug(T("切换历史截图: index={index}", {{"index", index}}), "HistoryNavigator");
 }

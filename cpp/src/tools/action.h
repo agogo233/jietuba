@@ -82,9 +82,10 @@ private:
     void remember_last_region(const QRectF &rect);
     // Leaves editing so selection frames and handles are not exported.
     void temporarily_exit_editing();
-    // Stores a capture's base image in the history, asynchronously, unless disabled or the
-    // capture being confirmed is already a history entry (browsing).
-    void record_capture_history(const QImage &base_image);
+    // Stores the capture's whole frozen desktop (annotation-free) and the selection that
+    // produced it in the history, asynchronously, unless disabled or the capture being
+    // confirmed is already a history entry (browsing).
+    void record_capture_history(const QRectF &selection_rect);
     void cleanup_and_close();
     static QString format_from_save_path(const QString &file_path, const QString &selected_filter);
 };

@@ -16,6 +16,28 @@ namespace jietuba {
 namespace {
 // The decoded entries kept around so a keypress does not re-decode the same PNG.
 constexpr int MAX_CACHE = 3;
+
+// The sidecar holding an entry's selection, in image-local coordinates. The stem is the
+// PNG's own (ids always end in ".png"), so an entry is a self-contained file pair.
+QString sidecar_path(const QString &id) {
+    return QDir(CaptureHistory::directory()).filePath(id.left(id.size() - 4) + QStringLiteral(".txt"));
+}
+
+QString selection_text(const QRect &rect) {
+    return QStringLiteral("%1 %2 %3 %4").arg(rect.x()).arg(rect.y()).arg(rect.width()).arg(rect.height());
+}
+
+QRectF parse_selection(const QString &text) {
+    const QStringList parts = text.split(' ', Qt::SkipEmptyParts);
+    if (parts.size() != 4) return QRectF();
+    bool ok[4] = {false, false, false, false};
+    const int x = parts[0].toInt(&ok[0]);
+    const int y = parts[1].toInt(&ok[1]);
+    const int w = parts[2].toInt(&ok[2]);
+    const int h = parts[3].toInt(&ok[3]);
+    if (!ok[0] || !ok[1] || !ok[2] || !ok[3] || w <= 0 || h <= 0) return QRectF();
+    return QRectF(x, y, w, h);
+}
 }
 
 QMutex CaptureHistory::file_mutex_;
@@ -70,7 +92,7 @@ QImage CaptureHistory::load(const QString &id) const {
     return image;
 }
 
-void CaptureHistory::record(const QImage &image, const CaptureHistoryLimits &limits) {
+void CaptureHistory::record(const QImage &image, const QRectF &selection_in_image, const CaptureHistoryLimits &limits) {
     if (image.isNull()) return;
     QString base = QStringLiteral("capture_%1").arg(QDateTime::currentDateTime().toString(QStringLiteral("yyyyMMdd_HHmmsszzz")));
     QString id = base + QStringLiteral(".png");
@@ -89,14 +111,38 @@ void CaptureHistory::record(const QImage &image, const CaptureHistoryLimits &lim
         file.cancelWriting();
         return;
     }
-    if (!file.commit()) log_warning(T("提交截图历史失败: {path}", {{"path", QDir::toNativeSeparators(path)}}), "CaptureHistory");
+    if (!file.commit()) {
+        log_warning(T("提交截图历史失败: {path}", {{"path", QDir::toNativeSeparators(path)}}), "CaptureHistory");
+        return;  // No PNG on disk, so no sidecar may be left for it.
+    }
+    // A capture without a selection (should not happen) keeps no sidecar; switching then
+    // selects the whole image, so a missing or unreadable sidecar only degrades that entry.
+    if (selection_in_image.isValid() && !selection_in_image.isEmpty()) {
+        const QString meta_path = sidecar_path(id);
+        QSaveFile meta(meta_path);
+        if (meta.open(QIODevice::WriteOnly)) {
+            meta.write(selection_text(selection_in_image.toAlignedRect()).toUtf8());
+            if (!meta.commit())
+                log_warning(T("写入截图历史选区失败: {path}", {{"path", QDir::toNativeSeparators(meta_path)}}), "CaptureHistory");
+        } else {
+            log_warning(T("无法写入截图历史选区: {path}", {{"path", QDir::toNativeSeparators(meta_path)}}), "CaptureHistory");
+        }
+    }
     enforce_limits(limits);
+}
+
+QRectF CaptureHistory::selection_of(const QString &id) const {
+    QMutexLocker lock(&file_mutex_);
+    QFile meta(sidecar_path(id));
+    if (!meta.open(QIODevice::ReadOnly)) return QRectF();
+    return parse_selection(QString::fromUtf8(meta.readAll()));
 }
 
 void CaptureHistory::clear() {
     {
+        // removeRecursively also clears orphaned sidecars left by a manual PNG delete.
         QMutexLocker lock(&file_mutex_);
-        for (const auto &id : scan()) erase_file(id);
+        QDir(directory()).removeRecursively();
     }
     cache_ids_.clear();
     cache_images_.clear();
@@ -104,7 +150,7 @@ void CaptureHistory::clear() {
 
 void CaptureHistory::clear_storage() {
     QMutexLocker lock(&file_mutex_);
-    for (const auto &id : scan()) erase_file(id);
+    QDir(directory()).removeRecursively();
 }
 
 QStringList CaptureHistory::scan() {
@@ -121,6 +167,9 @@ void CaptureHistory::erase_file(const QString &id) {
     const QString path = QDir(directory()).filePath(id);
     if (QFile::exists(path) && !QFile::remove(path))
         log_warning(T("删除截图历史失败: {path}", {{"path", QDir::toNativeSeparators(path)}}), "CaptureHistory");
+    const QString meta = sidecar_path(id);
+    if (QFile::exists(meta) && !QFile::remove(meta))
+        log_warning(T("删除截图历史选区失败: {path}", {{"path", QDir::toNativeSeparators(meta)}}), "CaptureHistory");
 }
 
 void CaptureHistory::enforce_limits(const CaptureHistoryLimits &limits) {

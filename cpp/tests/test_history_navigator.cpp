@@ -30,6 +30,9 @@ private slots:
     void annotation_stashed_and_restored();
     void live_selection_null_restore();
     void smart_selection_tracking_allows_switch();
+    void restores_stored_selection();
+    void falls_back_to_whole_image_without_selection();
+    void stored_selection_clipped_to_scene();
 };
 
 // Builds a navigator over a fresh scene whose live background is `live`.
@@ -141,6 +144,50 @@ void HistoryNavigatorTests::smart_selection_tracking_allows_switch() {
     QVERIFY(navigator.step_older());
     QCOMPARE(scene.background->image().pixelColor(0, 0), QColor(255, 0, 0));
     QVERIFY(!scene.selection_model->is_dragging());  // The tracking ended with the switch.
+}
+
+void HistoryNavigatorTests::restores_stored_selection() {
+    const QImage live = make_image(QSize(200, 100), qRgb(0, 255, 0));
+    // A negative desktop origin (a secondary monitor left of the primary) shifts the stored
+    // selection back to its scene position on restore.
+    CanvasScene scene(live, QRectF(-50, -50, 200, 100));
+    const QList<QString> ids{QStringLiteral("a")};
+    const QList<QImage> images{make_image(QSize(100, 60), qRgb(255, 0, 0))};
+    QWidget parent;
+    HistoryNavigator navigator(&scene, &parent, [&ids] { return ids; },
+                               [&images](const QString &) { return images[0]; }, [] { return true; }, [](const QString &) {},
+                               [](const QString &) { return QRectF(10, 20, 30, 40); });
+    QVERIFY(navigator.step_older());
+    QCOMPARE(scene.background->image().size(), QSize(100, 60));
+    QCOMPARE(scene.selection_model->rect(), QRectF(-40, -30, 30, 40));
+}
+
+void HistoryNavigatorTests::falls_back_to_whole_image_without_selection() {
+    const QImage live = make_image(QSize(200, 100), qRgb(0, 255, 0));
+    CanvasScene scene(live, QRectF(0, 0, 200, 100));
+    const QList<QString> ids{QStringLiteral("a")};
+    const QList<QImage> images{make_image(QSize(100, 60), qRgb(255, 0, 0))};
+    QWidget parent;
+    HistoryNavigator navigator(&scene, &parent, [&ids] { return ids; },
+                               [&images](const QString &) { return images[0]; }, [] { return true; }, [](const QString &) {},
+                               [](const QString &) { return QRectF(); });
+    QVERIFY(navigator.step_older());
+    QCOMPARE(scene.selection_model->rect(), QRectF(0, 0, 100, 60));
+}
+
+void HistoryNavigatorTests::stored_selection_clipped_to_scene() {
+    const QImage live = make_image(QSize(200, 100), qRgb(0, 255, 0));
+    CanvasScene scene(live, QRectF(0, 0, 200, 100));
+    const QList<QString> ids{QStringLiteral("a")};
+    const QList<QImage> images{make_image(QSize(100, 60), qRgb(255, 0, 0))};
+    QWidget parent;
+    // A selection that reaches beyond the current desktop (a monitor was removed since the
+    // capture) is clipped to the scene instead of overflowing it.
+    HistoryNavigator navigator(&scene, &parent, [&ids] { return ids; },
+                               [&images](const QString &) { return images[0]; }, [] { return true; }, [](const QString &) {},
+                               [](const QString &) { return QRectF(150, 80, 100, 50); });
+    QVERIFY(navigator.step_older());
+    QCOMPARE(scene.selection_model->rect(), QRectF(150, 80, 50, 20));
 }
 
 void HistoryNavigatorTests::live_selection_null_restore() {

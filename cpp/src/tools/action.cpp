@@ -48,7 +48,8 @@ ActionTools::ActionTools(CanvasScene *scene, ToolSettingsManager *config_manager
         [history = capture_history_] { return history->entries(); },
         [history = capture_history_](const QString &id) { return history->load(id); },
         [this, parent_window] { return parent_window && parent_window->isVisible(); },
-        [](const QString &message) { show_toast(message); });
+        [](const QString &message) { show_toast(message); },
+        [history = capture_history_](const QString &id) { return history->selection_of(id); });
 }
 
 void ActionTools::finish_when_ready(const QRectF &selection_rect, std::function<void()> finish) {
@@ -81,8 +82,7 @@ void ActionTools::copy_save_and_close(bool close_after) {
         if (parent_window && close_after) parent_window->hide();
         QImage original;
         if (has_annotations(scene->get_drawing_items_in_rect(selection_rect))) original = export_service.export_base_image_only(selection_rect);
-        // Without annotations `image` already is the base, so no second export is needed.
-        record_capture_history(original.isNull() ? image : original);
+        record_capture_history(selection_rect);
         deliver_screenshot(image, config_manager, true, "capture", {}, original, save_service);
         log_debug(T("已交给后台复制到剪贴板"), "Action");
         if (parent_window && close_after) cleanup_and_close();
@@ -108,7 +108,7 @@ void ActionTools::handle_save(bool close_after) {
     // A smart erase still rebuilding: the capture goes at once and the save window opens when it is done.
     finish_when_ready(selection_rect, [this, selection_rect, base_name] {
         const auto image = export_service.export_image(selection_rect);
-        record_capture_history(export_service.export_base_image_only(selection_rect));
+        record_capture_history(selection_rect);
         // The capture ends before the save window opens. That window runs once the click
         // asking for it has returned, owning nothing of the capture, which is being deleted.
         cleanup_and_close();
@@ -124,7 +124,7 @@ void ActionTools::handle_quick_save() {
     remember_last_region(rect);
     finish_when_ready(rect, [this, rect] {
         const auto image = export_service.export_image(rect);
-        record_capture_history(export_service.export_base_image_only(rect));
+        record_capture_history(rect);
         const auto [success, path] = save_service->save_qimage(image, config_manager->get_screenshot_save_path(), "", "", config_manager->get_screenshot_format());
         if (success) {
             save_original_beside(rect, path.value_or(QString()));
@@ -182,7 +182,7 @@ void ActionTools::handle_pin(bool close_after) {
     // The pin finishes a smart erase still rebuilding by itself; only the copy for the clipboard waits.
     const auto finish = [this, selection_rect, base_image, original, close_after] {
         const auto result_image = export_service.export_image(selection_rect);
-        record_capture_history(original.isNull() ? base_image : original);
+        record_capture_history(selection_rect);
         if (parent_window && close_after) parent_window->hide();
         deliver_screenshot(result_image, config_manager, true, "pin", {}, original, save_service);
         log_debug(T("已交给后台复制到剪贴板"), "PinAction");
@@ -310,20 +310,29 @@ void ActionTools::temporarily_exit_editing() {
     emit scene->editing_cleanup_requested();
 }
 
-void ActionTools::record_capture_history(const QImage &base_image) {
+void ActionTools::record_capture_history(const QRectF &selection_rect) {
     if (!config_manager->get_capture_history_enabled()) return;
     // A history image confirmed while browsing is already stored; recording again would
-    // duplicate the same base with a new timestamp.
+    // duplicate the same desktop with a new timestamp.
     if (history_navigator && history_navigator->browsing()) return;
+    // The whole frozen desktop, annotation-free, is what the user saw when capturing;
+    // switching back to it restores that full screen, with the selection re-placed.
+    const QImage fullscreen = scene->background ? scene->background->image() : QImage();
+    if (fullscreen.isNull()) return;
+    // The selection travels in image-local coordinates, so a changed desktop layout (e.g. a
+    // monitor unplugged since) only clips it when the entry is shown, never corrupts it.
+    const QRectF local = selection_rect.isValid() && !selection_rect.isEmpty()
+                             ? selection_rect.translated(-scene->scene_rect.topLeft())
+                             : QRectF();
     // Encoding and writing a PNG are slow; captures are never blocked by the history.
     // The limits are snapshotted here, on the UI thread, so the task never reads QSettings.
     const auto history = capture_history_;
     const CaptureHistoryLimits limits = CaptureHistory::limits();
     try {
-        background_tasks::start_thread([history, base_image, limits] { history->record(base_image, limits); });
+        background_tasks::start_thread([history, fullscreen, local, limits] { history->record(fullscreen, local, limits); });
     } catch (const std::runtime_error &) {
         // While preparing an update no new threads start; run inline so the entry is kept.
-        history->record(base_image, limits);
+        history->record(fullscreen, local, limits);
     }
 }
 

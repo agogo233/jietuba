@@ -2,13 +2,16 @@
 #include <QImage>
 #include <QList>
 #include <QMutex>
+#include <QRectF>
 #include <QString>
 #include <QStringList>
 
 namespace jietuba {
 // The application's own screenshot history, kept independently of the clipboard history:
-// captures are stored as their base (annotation-free) images on disk, so history switching
-// works with the clipboard feature off and survives restarts. Entries are PNG files in
+// each capture is stored as the whole frozen desktop's annotation-free image, so history
+// switching goes back to the full screen of that moment. The selection that produced the
+// capture travels with the entry, in image-local coordinates, as a sidecar text file
+// (<entry>.txt next to the PNG), so switching can re-select it. Entries are PNG files in
 // <data_location>/capture_history, named by capture timestamp (newest sorts last); cleanup
 // enforces a retention period, an entry count and a total size, keeping the newest entry.
 // The limits a recording is cleaned against, snapshotted from the live config so the
@@ -29,9 +32,13 @@ public:
     QStringList entries() const;
     // Loads one capture's image; a null image means it is missing or unreadable.
     QImage load(const QString &id) const;
-    // Stores `image` as the newest capture, then enforces `limits`. Never throws; a
-    // storage failure is logged and ignored so captures are never blocked by the history.
-    void record(const QImage &image, const CaptureHistoryLimits &limits);
+    // The selection recorded with `id`, in image-local coordinates; an invalid rect means
+    // the entry carries none (older entries, or the sidecar is missing or unreadable).
+    QRectF selection_of(const QString &id) const;
+    // Stores `image` (the whole frozen desktop) as the newest capture, with the selection
+    // that produced it, then enforces `limits`. Never throws; a storage failure is logged
+    // and ignored so captures are never blocked by the history.
+    void record(const QImage &image, const QRectF &selection_in_image, const CaptureHistoryLimits &limits);
     // Deletes every stored capture and clears the image cache.
     void clear();
     // Deletes every stored capture on disk (the settings page's clear button); the live
@@ -43,6 +50,7 @@ public:
 private:
     static QStringList scan();
     void enforce_limits(const CaptureHistoryLimits &limits);
+    // Deletes a capture's PNG and its selection sidecar; the caller holds file_mutex_.
     static void erase_file(const QString &id);
     // Guards the directory scan/write/delete against the recording task and the UI.
     static QMutex file_mutex_;

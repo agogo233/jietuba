@@ -25,13 +25,16 @@ public:
     using ListLoader = std::function<QList<QString>()>;
     // Loads one capture's composite image; a null image means it is gone.
     using ImageLoader = std::function<QImage(const QString &image_id)>;
+    // The selection that produced a capture, in image-local coordinates; an invalid
+    // rect means the entry carries none, so the whole image is selected instead.
+    using SelectionLoader = std::function<QRectF(const QString &image_id)>;
     // Whether the capture session is still open and accepting input.
     using ActiveCheck = std::function<bool()>;
     // Reports a one-off message (toast).
     using Notifier = std::function<void(const QString &message)>;
 
     HistoryNavigator(CanvasScene *scene, QWidget *parent_window, ListLoader list_loader, ImageLoader image_loader,
-                     ActiveCheck is_active = {}, Notifier notifier = {});
+                     ActiveCheck is_active = {}, Notifier notifier = {}, SelectionLoader selection_loader = {});
     ~HistoryNavigator() = default;
     // Steps to the next older capture; false when there is none or the state
     // cannot switch. Steps to the next newer capture, returning to the live
@@ -64,6 +67,7 @@ private:
     ImageLoader image_loader_;
     ActiveCheck is_active_;
     Notifier notifier_;
+    SelectionLoader selection_loader_;
     // Live endpoint snapshot.
     QImage live_image_;
     QRectF live_selection_;
