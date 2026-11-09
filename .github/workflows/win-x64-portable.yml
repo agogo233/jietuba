@@ -1,7 +1,9 @@
 name: Win x64 Portable Build (Full)
 
 # Windows x64 便携版（jietuba_pp.exe，单 exe + 内嵌 ONNX Runtime + 默认 PP-OCR small 模型）：
-# master2 推送或手动触发，构建后做 smoke 校验，打包成单层 zip 上传为 Actions artifact。
+# master2 推送或手动触发，构建后做 smoke 校验，直接上传构建产物（dist 内容）为 Actions
+# artifact。不预先用 Compress-Archive 打 zip：GitHub 的 upload-artifact 会把上传文件再包
+# 一层容器 zip，预打包会造成下载后需解压两次；直接上传内容则下载解压一次即见 exe。
 # Qt 静态 SDK 与 ONNX Runtime 均走缓存，命中时无需现场编译/下载。
 on:
   workflow_dispatch:
@@ -52,15 +54,10 @@ jobs:
         # 在隔离沙箱内启动 jietuba_pp.exe，校验其能运行、写日志，并确认内嵌 ONNX Runtime 落入 models\。
         run: .\scripts\smoke_static.ps1 -Exe dist\Release-static-full\jietuba_pp.exe
 
-      - name: Package (single-layer zip)
-        # Compress-Archive 对 dist\Release-static-full\* 展开，exe/models/licenses 直接位于 zip 根，不套外层目录。
-        run: |
-          $version = (Get-Content ..\VERSION -Raw).Trim()
-          Compress-Archive -Path dist\Release-static-full\* -DestinationPath "..\jietuba_pp-win-x64-$version.zip" -Force
-
       - name: Upload artifact
+        # 直接上传 dist 内容，exe/models/licenses 位于 artifact 根，下载解压一次即用。
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: jietuba_pp-win-x64-portable
-          path: jietuba_pp-win-x64-*.zip
+          path: dist/Release-static-full/**
           if-no-files-found: error
