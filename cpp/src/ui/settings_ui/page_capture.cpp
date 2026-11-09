@@ -246,7 +246,7 @@ QWidget *create_capture_page(SettingsDialog *dialog) {
     switch_card(dialog, grp_history, FluentIcon::History, "Record Screenshots",
                 "Keep this app's screenshots for history switching, independently of the clipboard history.",
                 config->get_capture_history_enabled(), "capture_history_enabled_toggle");
-    auto *retention_card = new SettingCard(FluentIcon::Clock, dialog->tr_text("Keep Screenshots"),
+    auto *retention_card = new SettingCard(FluentIcon::StopWatch, dialog->tr_text("Keep Screenshots"),
                                            dialog->tr_text("Screenshots older than this are deleted. 0 keeps them indefinitely."), grp_history);
     auto *retention_combo = new ComboBox(retention_card);
     for (const auto &[label, days] : {std::make_pair("Indefinitely", 0), std::make_pair("3 days", 3), std::make_pair("7 days", 7),
@@ -256,7 +256,7 @@ QWidget *create_capture_page(SettingsDialog *dialog) {
     dialog->set_attr("capture_history_retention_combo", retention_combo);
     retention_card->addControl(retention_combo);
     grp_history->addSettingCard(retention_card);
-    auto *count_card = new SettingCard(FluentIcon::List, dialog->tr_text("Maximum Entries"),
+    auto *count_card = new SettingCard(FluentIcon::Document, dialog->tr_text("Maximum Entries"),
                                        dialog->tr_text("Oldest entries are deleted beyond this count."), grp_history);
     auto *count_spin = new SpinBox(count_card);
     count_spin->setRange(1, 500);
@@ -264,7 +264,7 @@ QWidget *create_capture_page(SettingsDialog *dialog) {
     dialog->set_attr("capture_history_count_spin", count_spin);
     count_card->addControl(count_spin);
     grp_history->addSettingCard(count_card);
-    auto *size_card = new SettingCard(FluentIcon::Calculator, dialog->tr_text("Maximum Total Size (MB)"),
+    auto *size_card = new SettingCard(FluentIcon::Download, dialog->tr_text("Maximum Total Size (MB)"),
                                       dialog->tr_text("Oldest entries are deleted beyond this total."), grp_history);
     auto *size_spin = new SpinBox(size_card);
     size_spin->setRange(1, 4096);

@@ -22,7 +22,7 @@ QMutex CaptureHistory::file_mutex_;
 
 CaptureHistory::CaptureHistory() = default;
 
-CaptureHistory::CaptureHistoryLimits CaptureHistory::limits() {
+CaptureHistoryLimits CaptureHistory::limits() {
     const auto *config = get_tool_settings_manager();
     CaptureHistoryLimits limits;
     limits.retention_days = config->get_capture_history_retention_days();
