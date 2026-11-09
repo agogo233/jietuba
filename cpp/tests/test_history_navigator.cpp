@@ -29,6 +29,7 @@ private slots:
     void undo_stack_isolated();
     void annotation_stashed_and_restored();
     void live_selection_null_restore();
+    void smart_selection_tracking_allows_switch();
 };
 
 // Builds a navigator over a fresh scene whose live background is `live`.
@@ -123,6 +124,23 @@ void HistoryNavigatorTests::annotation_stashed_and_restored() {
     QVERIFY(!scene.items().contains(item));  // Stashed away, kept alive by the lease.
     QVERIFY(navigator.return_to_current());
     QVERIFY(scene.items().contains(item));  // Re-attached on return.
+}
+
+void HistoryNavigatorTests::smart_selection_tracking_allows_switch() {
+    const QImage live = make_image(QSize(200, 100), qRgb(0, 255, 0));
+    CanvasScene scene(live, QRectF(0, 0, 200, 100));
+    const QList<QString> ids{QStringLiteral("a")};
+    const QList<QImage> images{make_image(QSize(100, 60), qRgb(255, 0, 0))};
+    QWidget parent;
+    HistoryNavigator navigator(&scene, &parent, [&ids] { return ids; },
+                               [&images](const QString &) { return images[0]; }, [] { return true; }, [](const QString &) {});
+    // The smart selection tracks the cursor as a drag (no button held); a real drag holds
+    // one. The switch must be allowed for cursor tracking, so merely moving the mouse no
+    // longer blocks history browsing.
+    scene.selection_model->start_dragging();
+    QVERIFY(navigator.step_older());
+    QCOMPARE(scene.background->image().pixelColor(0, 0), QColor(255, 0, 0));
+    QVERIFY(!scene.selection_model->is_dragging());  // The tracking ended with the switch.
 }
 
 void HistoryNavigatorTests::live_selection_null_restore() {

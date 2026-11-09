@@ -9,6 +9,7 @@
 #include "core/logger.h"
 #include "ui/selection_info/controller.h"
 #include <QGraphicsItem>
+#include <QGuiApplication>
 
 namespace jietuba {
 namespace {
@@ -76,9 +77,18 @@ void HistoryNavigator::apply_entry(int index, const QImage &image) {
     log_debug(T("切换历史截图: index={index}", {{"index", index}}), "HistoryNavigator");
 }
 
+bool HistoryNavigator::switch_allowed() {
+    auto *model = scene_->selection_model;
+    // A real selection drag holds a button; the smart selection's cursor tracking
+    // only sets the dragging flag, and switching ends that tracking cleanly.
+    if (model->is_dragging() && QGuiApplication::mouseButtons() != Qt::NoButton) return false;
+    if (model->is_dragging()) model->stop_dragging();
+    return true;
+}
+
 bool HistoryNavigator::step_older() {
     if (!is_active_ || !is_active_()) return false;
-    if (scene_->selection_model->is_dragging()) return false;
+    if (!switch_allowed()) return false;
     if (smart_erase_pending(scene_, scene_->selection_model->rect())) return false;
     if (!ensure_history()) {
         toast_boundary();
@@ -100,7 +110,7 @@ bool HistoryNavigator::step_older() {
 bool HistoryNavigator::step_newer() {
     if (!browsing()) return false;
     if (!is_active_ || !is_active_()) return false;
-    if (scene_->selection_model->is_dragging()) return false;
+    if (!switch_allowed()) return false;
     if (smart_erase_pending(scene_, scene_->selection_model->rect())) return false;
     // Newest end of the history is the live endpoint itself.
     for (int target = index_ - 1; target >= 0; --target) {

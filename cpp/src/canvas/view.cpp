@@ -90,6 +90,11 @@ CanvasView::CanvasView(CanvasScene *scene, QWidget *parent, bool confirm, bool c
     viewport()->setMouseTracking(true);
     setMouseTracking(true);
     smart_selection_anim_ = std::make_unique<SmartSelectionAnimator>([this](const QRectF &rect) { set_selection_rect_now(rect); }, this);
+    // A confirmed or preset selection must not be overridden by an in-flight smart
+    // selection tween (history switching, restore last region); stop it up front.
+    connect(canvas_scene, &CanvasScene::selectionConfirmed, this, [this] {
+        if (smart_selection_anim_) smart_selection_anim_->stop();
+    });
     scene->view = this;
     cursor_manager = std::make_unique<CursorManager>(this);
     smart_edit_controller = std::make_unique<SmartEditController>(canvas_scene);

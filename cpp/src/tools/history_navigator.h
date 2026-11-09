@@ -53,6 +53,10 @@ private:
     // Shows the capture at `index` (history_ has already been loaded).
     void apply_entry(int index, const QImage &image);
     void toast_boundary();
+    // Whether a switch may start now: not during a real selection drag. The smart
+    // selection tracks the cursor as a drag, so a held button tells them apart; a
+    // bare hover ends the tracking before the switch.
+    bool switch_allowed();
 
     CanvasScene *scene_ = nullptr;
     QWidget *parent_window_ = nullptr;
