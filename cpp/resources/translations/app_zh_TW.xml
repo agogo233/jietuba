@@ -125,78 +125,6 @@
         <translation>智慧選區</translation>
     </message>
     <message>
-        <source>Screenshot History</source>
-        <translation>截圖歷史</translation>
-    </message>
-    <message>
-        <source>Record Screenshots</source>
-        <translation>記錄截圖</translation>
-    </message>
-    <message>
-        <source>Keep this app's screenshots for history switching, independently of the clipboard history.</source>
-        <translation>保留本應用的截圖用於歷史切換，不依賴剪貼簿歷史。</translation>
-    </message>
-    <message>
-        <source>Keep Screenshots</source>
-        <translation>保留時間</translation>
-    </message>
-    <message>
-        <source>Screenshots older than this are deleted. 0 keeps them indefinitely.</source>
-        <translation>超過此時長的截圖將被刪除。0 表示永久保留。</translation>
-    </message>
-    <message>
-        <source>Maximum Entries</source>
-        <translation>數量上限</translation>
-    </message>
-    <message>
-        <source>Oldest entries are deleted beyond this count.</source>
-        <translation>超過此數量時刪除最舊的截圖。</translation>
-    </message>
-    <message>
-        <source>Maximum Total Size (MB)</source>
-        <translation>總容量上限 (MB)</translation>
-    </message>
-    <message>
-        <source>Oldest entries are deleted beyond this total.</source>
-        <translation>超過此總容量時刪除最舊的截圖。</translation>
-    </message>
-    <message>
-        <source>Deletes every stored screenshot on disk.</source>
-        <translation>刪除磁碟上儲存的所有截圖。</translation>
-    </message>
-    <message>
-        <source>Clear Now</source>
-        <translation>立即清空</translation>
-    </message>
-    <message>
-        <source>Delete every stored screenshot?</source>
-        <translation>確定刪除所有已儲存的截圖？</translation>
-    </message>
-    <message>
-        <source>Screenshot history cleared</source>
-        <translation>截圖歷史已清空</translation>
-    </message>
-    <message>
-        <source>Indefinitely</source>
-        <translation>永久</translation>
-    </message>
-    <message>
-        <source>3 days</source>
-        <translation>3 天</translation>
-    </message>
-    <message>
-        <source>7 days</source>
-        <translation>7 天</translation>
-    </message>
-    <message>
-        <source>14 days</source>
-        <translation>14 天</translation>
-    </message>
-    <message>
-        <source>30 days</source>
-        <translation>30 天</translation>
-    </message>
-    <message>
         <source>Save Settings</source>
         <translation>截圖儲存</translation>
     </message>
@@ -465,14 +393,6 @@ Replace it?</source>
     <message>
         <source>Delete Selected</source>
         <translation>刪除選取圖元</translation>
-    </message>
-    <message>
-        <source>Previous Screenshot</source>
-        <translation>上一張截圖</translation>
-    </message>
-    <message>
-        <source>Next Screenshot</source>
-        <translation>下一張截圖</translation>
     </message>
     <message>
         <source>Restore Last Region</source>
@@ -1824,10 +1744,6 @@ Replace it?</source>
         <translation>儲存到檔案</translation>
     </message>
     <message>
-        <source>Previous screenshot (,)</source>
-        <translation>上一張截圖 (,)</translation>
-    </message>
-    <message>
         <source>Quick save: straight to the save folder, no dialog</source>
         <translation>快捷儲存：不跳出視窗，直接存到儲存資料夾</translation>
     </message>
@@ -2482,6 +2398,10 @@ Replace it?</source>
     <message>
         <source>Screen Annotation</source>
         <translation>螢幕標註</translation>
+    </message>
+    <message>
+        <source>Screen Recording</source>
+        <translation>螢幕錄影</translation>
     </message>
 </context>
 <context>
@@ -6186,10 +6106,6 @@ Replace: move the current data there; the data already in that folder will be de
         <translation>取消復原</translation>
     </message>
     <message>
-        <source>Previous screenshot</source>
-        <translation>上一張截圖</translation>
-    </message>
-    <message>
         <source>Cancel screenshot</source>
         <translation>結束截圖</translation>
     </message>
@@ -6665,6 +6581,7 @@ Replace: move the current data there; the data already in that folder will be de
         <source>Long screenshot - window position corrected</source>
         <translation>長截圖 - 視窗位置已校正</translation>
     </message>
+    <message><source>Couldn't extend. Keep the page still.</source><translation>無法補截，請保持頁面不動後重試。</translation></message>
 </context>
 <context>
     <name>ScreenshotWindow</name>
@@ -7129,12 +7046,20 @@ Make sure gifrecorder is installed correctly.</source>
         <source>Watermark</source>
         <translation>浮水印</translation>
     </message>
+    <message>
+        <source>Previous screenshot (,)</source>
+        <translation>上一張截圖 (,)</translation>
+    </message>
 </context>
 <context>
     <name>ToolbarLayoutDialog</name>
     <message>
         <source>Watermark</source>
         <translation>浮水印</translation>
+    </message>
+    <message>
+        <source>Previous screenshot</source>
+        <translation>上一張截圖</translation>
     </message>
 </context>
 <context>
@@ -7851,6 +7776,14 @@ Replace it?</source>
         <source>The name "%1" is already used by path "%2". Do you want to set a new name for the current path?</source>
         <translation>名稱“%1”已被路徑“%2”使用。要為目前路徑設定新名稱嗎？</translation>
     </message>
+    <message>
+        <source>Default size limit</source>
+        <translation>預設最大上限</translation>
+    </message>
+    <message>
+        <source>Even the lowest quality is larger than this. Make the image smaller to fit.</source>
+        <translation>最低品質也超過這個大小，請在上方縮小尺寸。</translation>
+    </message>
 </context>
 <context>
     <name>ClipboardWindow</name>
@@ -7933,6 +7866,209 @@ Replace it?</source>
         <source>Copied files and folders, shown with their icons, names and sizes.</source>
         <translation>複製的檔案和資料夾，顯示圖示、名稱和大小。</translation>
     </message>
+    <message>
+        <source>Screenshot History</source>
+        <translation>截圖歷史</translation>
+    </message>
+    <message>
+        <source>Record Screenshots</source>
+        <translation>記錄截圖</translation>
+    </message>
+    <message>
+        <source>Keep this app's screenshots for history switching, independently of the clipboard history.</source>
+        <translation>保留本應用的截圖用於歷史切換，不依賴剪貼簿歷史。</translation>
+    </message>
+    <message>
+        <source>Keep Screenshots</source>
+        <translation>保留時間</translation>
+    </message>
+    <message>
+        <source>Screenshots older than this are deleted. 0 keeps them indefinitely.</source>
+        <translation>超過此時長的截圖將被刪除。0 表示永久保留。</translation>
+    </message>
+    <message>
+        <source>Maximum Entries</source>
+        <translation>數量上限</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this count.</source>
+        <translation>超過此數量時刪除最舊的截圖。</translation>
+    </message>
+    <message>
+        <source>Maximum Total Size (MB)</source>
+        <translation>總容量上限 (MB)</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this total.</source>
+        <translation>超過此總容量時刪除最舊的截圖。</translation>
+    </message>
+    <message>
+        <source>Deletes every stored screenshot on disk.</source>
+        <translation>刪除磁碟上儲存的所有截圖。</translation>
+    </message>
+    <message>
+        <source>Clear Now</source>
+        <translation>立即清空</translation>
+    </message>
+    <message>
+        <source>Delete every stored screenshot?</source>
+        <translation>確定刪除所有已儲存的截圖？</translation>
+    </message>
+    <message>
+        <source>Screenshot history cleared</source>
+        <translation>截圖歷史已清空</translation>
+    </message>
+    <message>
+        <source>Indefinitely</source>
+        <translation>永久</translation>
+    </message>
+    <message>
+        <source>3 days</source>
+        <translation>3 天</translation>
+    </message>
+    <message>
+        <source>7 days</source>
+        <translation>7 天</translation>
+    </message>
+    <message>
+        <source>14 days</source>
+        <translation>14 天</translation>
+    </message>
+    <message>
+        <source>30 days</source>
+        <translation>30 天</translation>
+    </message>
+    <message>
+        <source>Previous Screenshot</source>
+        <translation>上一張截圖</translation>
+    </message>
+    <message>
+        <source>Next Screenshot</source>
+        <translation>下一張截圖</translation>
+    </message>
+    <message>
+        <source>When a screenshot with annotations (including mosaic) or a watermark is saved to the save folder, a copy without them is saved too.</source>
+        <translation>截圖存進儲存資料夾時，如果加了標註（含馬賽克）或浮水印，再另存一張沒有它們的原圖。</translation>
+    </message>
+    <message>
+        <source>Unassigned buttons and the wheel pass through. A double-click binding also captures single clicks of that button.</source>
+        <translation>未綁定的滑鼠按鍵與滾輪正常穿透。綁定雙擊後，也會接管該按鍵的單擊。</translation>
+    </message>
+    <message>
+        <source>Long Screenshot Shortcuts</source>
+        <translation>長截圖快捷鍵</translation>
+    </message>
+    <message>
+        <source>File Name Settings</source>
+        <translation>檔案名稱設定</translation>
+    </message>
+    <message>
+        <source>Set file names for screenshots, long screenshots, GIFs and videos.</source>
+        <translation>設定截圖、長截圖、GIF 和影片的儲存檔名。</translation>
+    </message>
+    <message>
+        <source>Configure</source>
+        <translation>設定</translation>
+    </message>
+    <message>
+        <source>Record Content Marked Private</source>
+        <translation>記錄標為隱私的內容</translation>
+    </message>
+    <message>
+        <source>Copies from private browser windows and password managers are skipped by default. When on, they are recorded too, passwords included, in plain text.</source>
+        <translation>瀏覽器無痕視窗和密碼管理器複製的內容預設不記錄。開啟後也會記下，密碼也會以明文存進歷史記錄。</translation>
+    </message>
+    <message>
+        <source>Show Selection</source>
+        <translation>顯示選區</translation>
+    </message>
+    <message>
+        <source>Dim what lies outside the selection and draw its edge in the magnified view, to line the edge up pixel by pixel.</source>
+        <translation>在放大圖上壓暗選區以外的部分並畫出選區邊框，方便把邊緣逐畫素對準。</translation>
+    </message>
+    <message>
+        <source>Only in the corresponding window</source>
+        <translation>僅在對應視窗內生效</translation>
+    </message>
+</context>
+<context>
+    <name>FileNameDialog</name>
+    <message>
+        <source>File Name Settings</source>
+        <translation>檔案名稱設定</translation>
+    </message>
+    <message>
+        <source>Edit ordinary text directly, such as the name of a long screenshot. Use {time} for date and time, {ms} for milliseconds, and {direction} for long screenshot direction. Extensions are added automatically.</source>
+        <translation>一般文字可直接修改，例如「長截圖」可以改成任意名稱。{time} 表示日期時間，{ms} 表示毫秒，{direction} 表示長截圖方向。副檔名自動加入。</translation>
+    </message>
+    <message>
+        <source>Screenshot</source>
+        <translation>一般截圖</translation>
+    </message>
+    <message>
+        <source>Pinned Image</source>
+        <translation>釘圖</translation>
+    </message>
+    <message>
+        <source>Long Screenshot</source>
+        <translation>長截圖</translation>
+    </message>
+    <message>
+        <source>GIF</source>
+        <translation>GIF</translation>
+    </message>
+    <message>
+        <source>MP4</source>
+        <translation>MP4</translation>
+    </message>
+    <message>
+        <source>Original Suffix</source>
+        <translation>原圖後綴</translation>
+    </message>
+    <message>
+        <source>Restore defaults</source>
+        <translation>還原預設</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>確定</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Preview: %1</source>
+        <translation>範例：%1</translation>
+    </message>
+    <message>
+        <source>Enter a file name rule.</source>
+        <translation>請輸入檔名規則。</translation>
+    </message>
+    <message>
+        <source>The file name rule is too long (maximum 120 characters).</source>
+        <translation>檔名規則過長（最多 120 個字元）。</translation>
+    </message>
+    <message>
+        <source>File names cannot contain forbidden characters or end with a dot or space.</source>
+        <translation>檔名不能含有無效字元，也不能以點或空格結尾。</translation>
+    </message>
+    <message>
+        <source>Unknown placeholder in the file name rule.</source>
+        <translation>檔名規則含有不支援的預留位置。</translation>
+    </message>
+    <message>
+        <source>This file name is reserved by Windows.</source>
+        <translation>此檔名是 Windows 保留名稱。</translation>
+    </message>
+    <message>
+        <source>The generated file name is too long (maximum 120 characters).</source>
+        <translation>產生的檔名過長（展開後最多 120 個字元）。</translation>
+    </message>
+    <message>
+        <source>Leave out the file extension; it is added automatically.</source>
+        <translation>請移除副檔名，儲存時會自動加入。</translation>
+    </message>
 </context>
 <context>
     <name>HistoryNavigator</name>
@@ -7941,4 +8077,12 @@ Replace it?</source>
         <translation>沒有更早的截圖</translation>
     </message>
 </context>
+  <context>
+    <name>ShortcutTabs</name>
+    <message><source>Screenshot</source><translation>截圖</translation></message>
+    <message><source>Long Screenshot</source><translation>長截圖</translation></message>
+    <message><source>Pin</source><translation>釘圖</translation></message>
+    <message><source>Clipboard</source><translation>剪貼簿</translation></message>
+    <message><source>Annotation Tools</source><translation>標註工具</translation></message>
+  </context>
 </TS>

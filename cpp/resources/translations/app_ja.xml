@@ -134,78 +134,6 @@
         <translation>スマート選択</translation>
     </message>
     <message>
-        <source>Screenshot History</source>
-        <translation>スクリーンショット履歴</translation>
-    </message>
-    <message>
-        <source>Record Screenshots</source>
-        <translation>スクリーンショットを記録</translation>
-    </message>
-    <message>
-        <source>Keep this app's screenshots for history switching, independently of the clipboard history.</source>
-        <translation>履歴切り替え用にこのアプリのスクリーンショットを保持します。クリップボード履歴とは独立しています。</translation>
-    </message>
-    <message>
-        <source>Keep Screenshots</source>
-        <translation>保持期間</translation>
-    </message>
-    <message>
-        <source>Screenshots older than this are deleted. 0 keeps them indefinitely.</source>
-        <translation>この期間より古いスクリーンショットは削除されます。0 で無期限。</translation>
-    </message>
-    <message>
-        <source>Maximum Entries</source>
-        <translation>最大件数</translation>
-    </message>
-    <message>
-        <source>Oldest entries are deleted beyond this count.</source>
-        <translation>この件数を超えると古いものから削除されます。</translation>
-    </message>
-    <message>
-        <source>Maximum Total Size (MB)</source>
-        <translation>最大合計サイズ (MB)</translation>
-    </message>
-    <message>
-        <source>Oldest entries are deleted beyond this total.</source>
-        <translation>この合計サイズを超えると古いものから削除されます。</translation>
-    </message>
-    <message>
-        <source>Deletes every stored screenshot on disk.</source>
-        <translation>ディスクに保存されたすべてのスクリーンショットを削除します。</translation>
-    </message>
-    <message>
-        <source>Clear Now</source>
-        <translation>今すぐクリア</translation>
-    </message>
-    <message>
-        <source>Delete every stored screenshot?</source>
-        <translation>保存されたすべてのスクリーンショットを削除しますか？</translation>
-    </message>
-    <message>
-        <source>Screenshot history cleared</source>
-        <translation>スクリーンショット履歴をクリアしました</translation>
-    </message>
-    <message>
-        <source>Indefinitely</source>
-        <translation>無期限</translation>
-    </message>
-    <message>
-        <source>3 days</source>
-        <translation>3日</translation>
-    </message>
-    <message>
-        <source>7 days</source>
-        <translation>7日</translation>
-    </message>
-    <message>
-        <source>14 days</source>
-        <translation>14日</translation>
-    </message>
-    <message>
-        <source>30 days</source>
-        <translation>30日</translation>
-    </message>
-    <message>
         <source>Save Settings</source>
         <translation>スクショ保存</translation>
     </message>
@@ -451,14 +379,6 @@ Replace it?</source>
     <message>
         <source>Delete Selected</source>
         <translation>選択項目を削除</translation>
-    </message>
-    <message>
-        <source>Previous Screenshot</source>
-        <translation>前のスクリーンショット</translation>
-    </message>
-    <message>
-        <source>Next Screenshot</source>
-        <translation>次のスクリーンショット</translation>
     </message>
     <message>
         <source>Restore Last Region</source>
@@ -1861,10 +1781,6 @@ Replace it?</source>
         <translation>ファイルに保存</translation>
     </message>
     <message>
-        <source>Previous screenshot (,)</source>
-        <translation>前のスクリーンショット (,)</translation>
-    </message>
-    <message>
         <source>Quick save: straight to the save folder, no dialog</source>
         <translation>クイック保存：ダイアログなしで保存フォルダに保存</translation>
     </message>
@@ -2496,6 +2412,10 @@ Replace it?</source>
     <message>
         <source>Screen Annotation</source>
         <translation>画面注釈</translation>
+    </message>
+    <message>
+        <source>Screen Recording</source>
+        <translation>画面録画</translation>
     </message>
 </context>
 
@@ -5827,10 +5747,6 @@ Replace: move the current data there; the data already in that folder will be de
         <translation>やり直し</translation>
     </message>
     <message>
-        <source>Previous screenshot</source>
-        <translation>前のスクリーンショット</translation>
-    </message>
-    <message>
         <source>Cancel screenshot</source>
         <translation>終了</translation>
     </message>
@@ -6292,6 +6208,7 @@ Replace: move the current data there; the data already in that folder will be de
         <source>Long screenshot - window position corrected</source>
         <translation>スクロールキャプチャ - ウィンドウ位置を補正しました</translation>
     </message>
+    <message><source>Couldn't extend. Keep the page still.</source><translation>継ぎ足しできませんでした。ページを動かさずに再試行してください。</translation></message>
 </context>
 <context>
     <name>ScreenshotWindow</name>
@@ -6756,12 +6673,20 @@ gifrecorder が正しくインストールされているか確認してくだ�
         <source>Watermark</source>
         <translation>透かし</translation>
     </message>
+    <message>
+        <source>Previous screenshot (,)</source>
+        <translation>前のスクリーンショット (,)</translation>
+    </message>
 </context>
 <context>
     <name>ToolbarLayoutDialog</name>
     <message>
         <source>Watermark</source>
         <translation>透かし</translation>
+    </message>
+    <message>
+        <source>Previous screenshot</source>
+        <translation>前のスクリーンショット</translation>
     </message>
 </context>
 <context>
@@ -7480,6 +7405,14 @@ Replace it?</source>
         <source>The name &quot;%1&quot; is already used by path &quot;%2&quot;. Do you want to set a new name for the current path?</source>
         <translation>名前「%1」はパス「%2」で使われています。現在のパスに新しい名前を付けますか？</translation>
     </message>
+    <message>
+        <source>Default size limit</source>
+        <translation>最大サイズロック</translation>
+    </message>
+    <message>
+        <source>Even the lowest quality is larger than this. Make the image smaller to fit.</source>
+        <translation>最低画質でもこのサイズを超えます。上でサイズを小さくしてください。</translation>
+    </message>
 </context>
 <context>
     <name>ClipboardWindow</name>
@@ -7562,6 +7495,203 @@ Replace it?</source>
         <source>Copied files and folders, shown with their icons, names and sizes.</source>
         <translation>コピーしたファイルとフォルダー。アイコン、名前、サイズを表示します。</translation>
     </message>
+    <message>
+        <source>Screenshot History</source>
+        <translation>スクリーンショット履歴</translation>
+    </message>
+    <message>
+        <source>Record Screenshots</source>
+        <translation>スクリーンショットを記録</translation>
+    </message>
+    <message>
+        <source>Keep this app's screenshots for history switching, independently of the clipboard history.</source>
+        <translation>履歴切り替え用にこのアプリのスクリーンショットを保持します。クリップボード履歴とは独立しています。</translation>
+    </message>
+    <message>
+        <source>Keep Screenshots</source>
+        <translation>保持期間</translation>
+    </message>
+    <message>
+        <source>Screenshots older than this are deleted. 0 keeps them indefinitely.</source>
+        <translation>この期間より古いスクリーンショットは削除されます。0 で無期限。</translation>
+    </message>
+    <message>
+        <source>Maximum Entries</source>
+        <translation>最大件数</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this count.</source>
+        <translation>この件数を超えると古いものから削除されます。</translation>
+    </message>
+    <message>
+        <source>Maximum Total Size (MB)</source>
+        <translation>最大合計サイズ (MB)</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this total.</source>
+        <translation>この合計サイズを超えると古いものから削除されます。</translation>
+    </message>
+    <message>
+        <source>Deletes every stored screenshot on disk.</source>
+        <translation>ディスクに保存されたすべてのスクリーンショットを削除します。</translation>
+    </message>
+    <message>
+        <source>Clear Now</source>
+        <translation>今すぐクリア</translation>
+    </message>
+    <message>
+        <source>Delete every stored screenshot?</source>
+        <translation>保存されたすべてのスクリーンショットを削除しますか？</translation>
+    </message>
+    <message>
+        <source>Screenshot history cleared</source>
+        <translation>スクリーンショット履歴をクリアしました</translation>
+    </message>
+    <message>
+        <source>Indefinitely</source>
+        <translation>無期限</translation>
+    </message>
+    <message>
+        <source>3 days</source>
+        <translation>3日</translation>
+    </message>
+    <message>
+        <source>7 days</source>
+        <translation>7日</translation>
+    </message>
+    <message>
+        <source>14 days</source>
+        <translation>14日</translation>
+    </message>
+    <message>
+        <source>30 days</source>
+        <translation>30日</translation>
+    </message>
+    <message>
+        <source>Previous Screenshot</source>
+        <translation>前のスクリーンショット</translation>
+    </message>
+    <message>
+        <source>Next Screenshot</source>
+        <translation>次のスクリーンショット</translation>
+    </message>
+    <message>
+        <source>When a screenshot with annotations (including mosaic) or a watermark is saved to the save folder, a copy without them is saved too.</source>
+        <translation>注釈（モザイクを含む）や透かしを加えたスクリーンショットを保存フォルダーに保存すると、それらのない元画像も保存します。</translation>
+    </message>
+    <message>
+        <source>Unassigned buttons and the wheel pass through. A double-click binding also captures single clicks of that button.</source>
+        <translation>未割り当てのボタンとホイールは背後に届きます。ダブルクリックを割り当てると、そのボタンのシングルクリックも取り込みます。</translation>
+    </message>
+    <message>
+        <source>Long Screenshot Shortcuts</source>
+        <translation>スクロール撮影操作</translation>
+    </message>
+    <message>
+        <source>File Name Settings</source>
+        <translation>ファイル名の設定</translation>
+    </message>
+    <message>
+        <source>Set file names for screenshots, long screenshots, GIFs and videos.</source>
+        <translation>スクリーンショット、長いスクリーンショット、GIF、動画の保存名を設定します。</translation>
+    </message>
+    <message>
+        <source>Configure</source>
+        <translation>設定</translation>
+    </message>
+    <message>
+        <source>Record Content Marked Private</source>
+        <translation>プライベート指定の内容も記録</translation>
+    </message>
+    <message>
+        <source>Copies from private browser windows and password managers are skipped by default. When on, they are recorded too, passwords included, in plain text.</source>
+        <translation>ブラウザーのプライベートウィンドウやパスワード管理ソフトでコピーした内容は、既定では記録しません。オンにすると記録し、パスワードも平文のまま履歴に保存されます。</translation>
+    </message>
+    <message><source>Show Selection</source><translation>選択範囲を表示</translation></message>
+    <message><source>Dim what lies outside the selection and draw its edge in the magnified view, to line the edge up pixel by pixel.</source><translation>拡大表示で選択範囲の外側を暗くし、枠線を描きます。端をピクセル単位で合わせやすくなります。</translation></message>
+    <message>
+        <source>Only in the corresponding window</source>
+        <translation>対応するウィンドウ内でのみ有効</translation>
+    </message>
+</context>
+<context>
+    <name>FileNameDialog</name>
+    <message>
+        <source>File Name Settings</source>
+        <translation>ファイル名の設定</translation>
+    </message>
+    <message>
+        <source>Edit ordinary text directly, such as the name of a long screenshot. Use {time} for date and time, {ms} for milliseconds, and {direction} for long screenshot direction. Extensions are added automatically.</source>
+        <translation>長いスクリーンショットの名前など、通常の文字は直接変更できます。{time} は日時、{ms} はミリ秒、{direction} はスクロール方向です。拡張子は自動で付きます。</translation>
+    </message>
+    <message>
+        <source>Screenshot</source>
+        <translation>スクリーンショット</translation>
+    </message>
+    <message>
+        <source>Pinned Image</source>
+        <translation>ピン留め画像</translation>
+    </message>
+    <message>
+        <source>Long Screenshot</source>
+        <translation>長いスクリーンショット</translation>
+    </message>
+    <message>
+        <source>GIF</source>
+        <translation>GIF</translation>
+    </message>
+    <message>
+        <source>MP4</source>
+        <translation>MP4</translation>
+    </message>
+    <message>
+        <source>Original Suffix</source>
+        <translation>元画像の接尾辞</translation>
+    </message>
+    <message>
+        <source>Restore defaults</source>
+        <translation>既定値に戻す</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>キャンセル</translation>
+    </message>
+    <message>
+        <source>Preview: %1</source>
+        <translation>プレビュー：%1</translation>
+    </message>
+    <message>
+        <source>Enter a file name rule.</source>
+        <translation>ファイル名のルールを入力してください。</translation>
+    </message>
+    <message>
+        <source>The file name rule is too long (maximum 120 characters).</source>
+        <translation>ファイル名のルールは120文字以内で入力してください。</translation>
+    </message>
+    <message>
+        <source>File names cannot contain forbidden characters or end with a dot or space.</source>
+        <translation>ファイル名に使用できない文字があるか、末尾がピリオドまたは空白です。</translation>
+    </message>
+    <message>
+        <source>Unknown placeholder in the file name rule.</source>
+        <translation>ファイル名のルールに未対応の変数があります。</translation>
+    </message>
+    <message>
+        <source>This file name is reserved by Windows.</source>
+        <translation>このファイル名は Windows の予約名です。</translation>
+    </message>
+    <message>
+        <source>The generated file name is too long (maximum 120 characters).</source>
+        <translation>生成されるファイル名が長すぎます（展開後120文字以内）。</translation>
+    </message>
+    <message>
+        <source>Leave out the file extension; it is added automatically.</source>
+        <translation>拡張子は自動で付くため、入力しないでください。</translation>
+    </message>
 </context>
 <context>
     <name>HistoryNavigator</name>
@@ -7570,4 +7700,12 @@ Replace it?</source>
         <translation>これより前のスクリーンショットはありません</translation>
     </message>
 </context>
+  <context>
+    <name>ShortcutTabs</name>
+    <message><source>Screenshot</source><translation>スクショ</translation></message>
+    <message><source>Long Screenshot</source><translation>長いスクショ</translation></message>
+    <message><source>Pin</source><translation>ピン留め</translation></message>
+    <message><source>Clipboard</source><translation>クリップボード</translation></message>
+    <message><source>Annotation Tools</source><translation>注釈ツール</translation></message>
+  </context>
 </TS>

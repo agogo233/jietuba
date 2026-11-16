@@ -132,79 +132,6 @@
         <translation>Smart Selection</translation>
     </message>
     <message>
-        <source>Screenshot History</source>
-        <translation>Screenshot History</translation>
-    </message>
-    <message>
-        <source>Record Screenshots</source>
-        <translation>Record Screenshots</translation>
-    </message>
-    <message>
-        <source>Keep this app's screenshots for history switching, independently of the clipboard history.</source>
-        <translation>Keep this app's screenshots for history switching, independently of the clipboard history.</translation>
-    </message>
-    <message>
-        <source>Keep Screenshots</source>
-        <translation>Keep Screenshots</translation>
-    </message>
-    <message>
-        <source>Screenshots older than this are deleted. 0 keeps them indefinitely.</source>
-        <translation>Screenshots older than this are deleted. 0 keeps them indefinitely.</translation>
-    </message>
-    <message>
-        <source>Maximum Entries</source>
-        <translation>Maximum Entries</translation>
-    </message>
-    <message>
-        <source>Oldest entries are deleted beyond this count.</source>
-        <translation>Oldest entries are deleted beyond this count.</translation>
-    </message>
-    <message>
-        <source>Maximum Total Size (MB)</source>
-        <translation>Maximum Total Size (MB)</translation>
-    </message>
-    <message>
-        <source>Oldest entries are deleted beyond this total.</source>
-        <translation>Oldest entries are deleted beyond this total.</translation>
-    </message>
-    <message>
-        <source>Deletes every stored screenshot on disk.</source>
-        <translation>Deletes every stored screenshot on disk.</translation>
-    </message>
-    <message>
-        <source>Clear Now</source>
-        <translation>Clear Now</translation>
-    </message>
-    <message>
-        <source>Delete every stored screenshot?</source>
-        <translation>Delete every stored screenshot?</translation>
-    </message>
-    <message>
-        <source>Screenshot history cleared</source>
-        <translation>Screenshot history cleared</translation>
-    </message>
-    <message>
-        <source>Indefinitely</source>
-        <translation>Indefinitely</translation>
-    </message>
-    <message>
-        <source>3 days</source>
-        <translation>3 days</translation>
-    </message>
-    <message>
-        <source>7 days</source>
-        <translation>7 days</translation>
-    </message>
-    <message>
-        <source>14 days</source>
-        <translation>14 days</translation>
-    </message>
-    <message>
-        <source>30 days</source>
-        <translation>30 days</translation>
-    </message>
-
-    <message>
         <source>Save Settings</source>
         <translation>Save Settings</translation>
     </message>
@@ -450,14 +377,6 @@ Replace it?</translation>
     <message>
         <source>Delete Selected</source>
         <translation>Delete Selected</translation>
-    </message>
-    <message>
-        <source>Previous Screenshot</source>
-        <translation>Previous Screenshot</translation>
-    </message>
-    <message>
-        <source>Next Screenshot</source>
-        <translation>Next Screenshot</translation>
     </message>
     <message>
         <source>Restore Last Region</source>
@@ -1800,10 +1719,6 @@ Replace it?</translation>
         <translation>Save to file</translation>
     </message>
     <message>
-        <source>Previous screenshot (,)</source>
-        <translation>Previous screenshot (,)</translation>
-    </message>
-    <message>
         <source>Quick save: straight to the save folder, no dialog</source>
         <translation>Quick save: straight to the save folder, no dialog</translation>
     </message>
@@ -2433,6 +2348,10 @@ Replace it?</translation>
     <message>
         <source>Screen Annotation</source>
         <translation>Screen Annotation</translation>
+    </message>
+    <message>
+        <source>Screen Recording</source>
+        <translation>Screen Recording</translation>
     </message>
 </context>
 
@@ -5746,10 +5665,6 @@ Replace: move the current data there; the data already in that folder will be de
         <translation>Redo</translation>
     </message>
     <message>
-        <source>Previous screenshot</source>
-        <translation>Previous screenshot</translation>
-    </message>
-    <message>
         <source>Cancel screenshot</source>
         <translation>Cancel screenshot</translation>
     </message>
@@ -6204,6 +6119,7 @@ Replace: move the current data there; the data already in that folder will be de
         <source>Long screenshot - window position corrected</source>
         <translation>Long screenshot - window position corrected</translation>
     </message>
+    <message><source>Couldn't extend. Keep the page still.</source><translation>Couldn't extend. Keep the page still.</translation></message>
 </context>
 <context>
     <name>ScreenshotWindow</name>
@@ -6675,12 +6591,20 @@ Make sure gifrecorder is installed correctly.</translation>
         <source>Watermark</source>
         <translation>Watermark</translation>
     </message>
+    <message>
+        <source>Previous screenshot (,)</source>
+        <translation>Previous screenshot (,)</translation>
+    </message>
 </context>
 <context>
     <name>ToolbarLayoutDialog</name>
     <message>
         <source>Watermark</source>
         <translation>Watermark</translation>
+    </message>
+    <message>
+        <source>Previous screenshot</source>
+        <translation>Previous screenshot</translation>
     </message>
 </context>
 <context>
@@ -7419,6 +7343,14 @@ Replace it?</translation>
         <source>The name &quot;%1&quot; is already used by path &quot;%2&quot;. Do you want to set a new name for the current path?</source>
         <translation>The name &quot;%1&quot; is already used by path &quot;%2&quot;. Do you want to set a new name for the current path?</translation>
     </message>
+    <message>
+        <source>Default size limit</source>
+        <translation>Default size limit</translation>
+    </message>
+    <message>
+        <source>Even the lowest quality is larger than this. Make the image smaller to fit.</source>
+        <translation>Even the lowest quality is larger than this. Make the image smaller to fit.</translation>
+    </message>
 </context>
 <context>
     <name>ClipboardWindow</name>
@@ -7501,6 +7433,203 @@ Replace it?</translation>
         <source>Copied files and folders, shown with their icons, names and sizes.</source>
         <translation>Copied files and folders, shown with their icons, names and sizes.</translation>
     </message>
+    <message>
+        <source>Screenshot History</source>
+        <translation>Screenshot History</translation>
+    </message>
+    <message>
+        <source>Record Screenshots</source>
+        <translation>Record Screenshots</translation>
+    </message>
+    <message>
+        <source>Keep this app's screenshots for history switching, independently of the clipboard history.</source>
+        <translation>Keep this app's screenshots for history switching, independently of the clipboard history.</translation>
+    </message>
+    <message>
+        <source>Keep Screenshots</source>
+        <translation>Keep Screenshots</translation>
+    </message>
+    <message>
+        <source>Screenshots older than this are deleted. 0 keeps them indefinitely.</source>
+        <translation>Screenshots older than this are deleted. 0 keeps them indefinitely.</translation>
+    </message>
+    <message>
+        <source>Maximum Entries</source>
+        <translation>Maximum Entries</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this count.</source>
+        <translation>Oldest entries are deleted beyond this count.</translation>
+    </message>
+    <message>
+        <source>Maximum Total Size (MB)</source>
+        <translation>Maximum Total Size (MB)</translation>
+    </message>
+    <message>
+        <source>Oldest entries are deleted beyond this total.</source>
+        <translation>Oldest entries are deleted beyond this total.</translation>
+    </message>
+    <message>
+        <source>Deletes every stored screenshot on disk.</source>
+        <translation>Deletes every stored screenshot on disk.</translation>
+    </message>
+    <message>
+        <source>Clear Now</source>
+        <translation>Clear Now</translation>
+    </message>
+    <message>
+        <source>Delete every stored screenshot?</source>
+        <translation>Delete every stored screenshot?</translation>
+    </message>
+    <message>
+        <source>Screenshot history cleared</source>
+        <translation>Screenshot history cleared</translation>
+    </message>
+    <message>
+        <source>Indefinitely</source>
+        <translation>Indefinitely</translation>
+    </message>
+    <message>
+        <source>3 days</source>
+        <translation>3 days</translation>
+    </message>
+    <message>
+        <source>7 days</source>
+        <translation>7 days</translation>
+    </message>
+    <message>
+        <source>14 days</source>
+        <translation>14 days</translation>
+    </message>
+    <message>
+        <source>30 days</source>
+        <translation>30 days</translation>
+    </message>
+    <message>
+        <source>Previous Screenshot</source>
+        <translation>Previous Screenshot</translation>
+    </message>
+    <message>
+        <source>Next Screenshot</source>
+        <translation>Next Screenshot</translation>
+    </message>
+    <message>
+        <source>When a screenshot with annotations (including mosaic) or a watermark is saved to the save folder, a copy without them is saved too.</source>
+        <translation>When a screenshot with annotations (including mosaic) or a watermark is saved to the save folder, a copy without them is saved too.</translation>
+    </message>
+    <message>
+        <source>Unassigned buttons and the wheel pass through. A double-click binding also captures single clicks of that button.</source>
+        <translation>Unassigned buttons and the wheel pass through. A double-click binding also captures single clicks of that button.</translation>
+    </message>
+    <message>
+        <source>Long Screenshot Shortcuts</source>
+        <translation>Long Screenshot Shortcuts</translation>
+    </message>
+    <message>
+        <source>File Name Settings</source>
+        <translation>File Name Settings</translation>
+    </message>
+    <message>
+        <source>Set file names for screenshots, long screenshots, GIFs and videos.</source>
+        <translation>Set file names for screenshots, long screenshots, GIFs and videos.</translation>
+    </message>
+    <message>
+        <source>Configure</source>
+        <translation>Configure</translation>
+    </message>
+    <message>
+        <source>Record Content Marked Private</source>
+        <translation>Record Content Marked Private</translation>
+    </message>
+    <message>
+        <source>Copies from private browser windows and password managers are skipped by default. When on, they are recorded too, passwords included, in plain text.</source>
+        <translation>Copies from private browser windows and password managers are skipped by default. When on, they are recorded too, passwords included, in plain text.</translation>
+    </message>
+    <message><source>Show Selection</source><translation>Show Selection</translation></message>
+    <message><source>Dim what lies outside the selection and draw its edge in the magnified view, to line the edge up pixel by pixel.</source><translation>Dim what lies outside the selection and draw its edge in the magnified view, to line the edge up pixel by pixel.</translation></message>
+    <message>
+        <source>Only in the corresponding window</source>
+        <translation>Only in the corresponding window</translation>
+    </message>
+</context>
+<context>
+    <name>FileNameDialog</name>
+    <message>
+        <source>File Name Settings</source>
+        <translation>File Name Settings</translation>
+    </message>
+    <message>
+        <source>Edit ordinary text directly, such as the name of a long screenshot. Use {time} for date and time, {ms} for milliseconds, and {direction} for long screenshot direction. Extensions are added automatically.</source>
+        <translation>Edit ordinary text directly, such as the name of a long screenshot. Use {time} for date and time, {ms} for milliseconds, and {direction} for long screenshot direction. Extensions are added automatically.</translation>
+    </message>
+    <message>
+        <source>Screenshot</source>
+        <translation>Screenshot</translation>
+    </message>
+    <message>
+        <source>Pinned Image</source>
+        <translation>Pinned Image</translation>
+    </message>
+    <message>
+        <source>Long Screenshot</source>
+        <translation>Long Screenshot</translation>
+    </message>
+    <message>
+        <source>GIF</source>
+        <translation>GIF</translation>
+    </message>
+    <message>
+        <source>MP4</source>
+        <translation>MP4</translation>
+    </message>
+    <message>
+        <source>Original Suffix</source>
+        <translation>Original Suffix</translation>
+    </message>
+    <message>
+        <source>Restore defaults</source>
+        <translation>Restore defaults</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancel</translation>
+    </message>
+    <message>
+        <source>Preview: %1</source>
+        <translation>Preview: %1</translation>
+    </message>
+    <message>
+        <source>Enter a file name rule.</source>
+        <translation>Enter a file name rule.</translation>
+    </message>
+    <message>
+        <source>The file name rule is too long (maximum 120 characters).</source>
+        <translation>The file name rule is too long (maximum 120 characters).</translation>
+    </message>
+    <message>
+        <source>File names cannot contain forbidden characters or end with a dot or space.</source>
+        <translation>File names cannot contain forbidden characters or end with a dot or space.</translation>
+    </message>
+    <message>
+        <source>Unknown placeholder in the file name rule.</source>
+        <translation>Unknown placeholder in the file name rule.</translation>
+    </message>
+    <message>
+        <source>This file name is reserved by Windows.</source>
+        <translation>This file name is reserved by Windows.</translation>
+    </message>
+    <message>
+        <source>The generated file name is too long (maximum 120 characters).</source>
+        <translation>The generated file name is too long (maximum 120 characters).</translation>
+    </message>
+    <message>
+        <source>Leave out the file extension; it is added automatically.</source>
+        <translation>Leave out the file extension; it is added automatically.</translation>
+    </message>
 </context>
 <context>
     <name>HistoryNavigator</name>
@@ -7509,4 +7638,12 @@ Replace it?</translation>
         <translation>No earlier screenshot</translation>
     </message>
 </context>
+  <context>
+    <name>ShortcutTabs</name>
+    <message><source>Screenshot</source><translation>Screenshot</translation></message>
+    <message><source>Long Screenshot</source><translation>Long Screenshot</translation></message>
+    <message><source>Pin</source><translation>Pin</translation></message>
+    <message><source>Clipboard</source><translation>Clipboard</translation></message>
+    <message><source>Annotation Tools</source><translation>Annotation Tools</translation></message>
+  </context>
 </TS>
