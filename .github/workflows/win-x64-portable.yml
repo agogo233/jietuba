@@ -68,5 +68,7 @@ jobs:
         with:
           retention-days: 7
           name: jietuba_pp-win-x64-portable
-          path: dist/Release-static-full/**
+          # upload-artifact 是 action 步骤，不吃 defaults 的 working-directory: cpp，
+          # 路径必须相对仓库根：产物在 cpp/dist/Release-static-full/。
+          path: cpp/dist/Release-static-full/**
           if-no-files-found: error
